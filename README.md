@@ -10,10 +10,10 @@ Kuduz.org; Türkiye'deki kuduz riskine karşı toplumu bilimsel verilerle bilgil
 
 * **İnteraktif Risk Haritası:** İl bazlı risk durumlarını gösteren detaylı harita.
 * **Acil Durum Sihirbazı:** Isırılma/Temas durumunda adım adım (Step-by-step) yönlendirme.
-* **Acil Noktalar:** Konuma dayalı en yakın nöbetçi veteriner ve hastane bulucu (OSM & Google Maps).
+* **Acil Noktalar:** Konuma dayalı en yakın nöbetçi veteriner ve hastane bulucu (Google Maps).
 * **Seyahat Sağlığı:** Gidilecek ülkeye göre kuduz risk analizi.
 * **Güvenli Bildirim Sistemi:** Vatandaşların riskli durumları anonim olarak bildirebildiği veri toplama modülü.
-* **Akademik (LABS):** Sağlık profesyonelleri için veri ve literatür merkezi.
+* **Akademik (LABS):** Sağlık profesyonelleri için veri ve literatür merkezi. (Yakında eklenecek.)
 
 ## 🛠️ Teknolojiler
 
@@ -33,7 +33,7 @@ Projeyi kendi bilgisayarınızda çalıştırmak için:
 
 1.  **Repoyu klonlayın:**
     ```bash
-    git clone [https://github.com/kuduzorg/web.git](https://github.com/kuduzorg/web.git)
+    git clone https://github.com/kuduzorg/web.git
     cd kuduz-org
     ```
 
