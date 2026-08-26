@@ -10,10 +10,38 @@ export function getClientIp(request: NextRequest) {
 }
 
 export function hasValidOrigin(request: NextRequest) {
-  const origin = request.headers.get("origin");
-  if (!origin) return true;
+  const originHeader = request.headers.get("origin");
+  if (!originHeader) return true;
+
   try {
-    return new URL(origin).host === request.nextUrl.host;
+    const origin = new URL(originHeader);
+    const configuredOrigin = process.env.WEB_ORIGIN?.trim();
+
+    if (configuredOrigin && origin.origin === new URL(configuredOrigin).origin) {
+      return true;
+    }
+
+    const forwardedHosts = request.headers
+      .get("x-forwarded-host")
+      ?.split(",")
+      .map((host) => host.trim().toLowerCase())
+      .filter(Boolean) ?? [];
+    const requestHosts = [
+      ...forwardedHosts,
+      request.headers.get("host")?.trim().toLowerCase(),
+      request.nextUrl.host.toLowerCase(),
+    ].filter((host): host is string => Boolean(host));
+
+    const allowed = requestHosts.includes(origin.host.toLowerCase());
+    if (!allowed) {
+      console.warn("Web origin check rejected a request", {
+        origin: origin.origin,
+        forwardedHost: request.headers.get("x-forwarded-host"),
+        host: request.headers.get("host"),
+        nextUrlHost: request.nextUrl.host,
+      });
+    }
+    return allowed;
   } catch {
     return false;
   }

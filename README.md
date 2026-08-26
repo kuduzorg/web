@@ -45,6 +45,7 @@ Uygulama varsayılan olarak `http://localhost:3000` adresinde açılır. Şema v
 | Değişken | Gerekli | Açıklama |
 | --- | --- | --- |
 | `DATABASE_URL` | Evet | PostgreSQL bağlantı adresi; yalnızca sunucu tarafında kullanılır. |
+| `WEB_ORIGIN` | Üretimde | Web uygulamasının tam dış adresi; örneğin `https://example.org`. |
 | `POSTGRES_DB` | Docker için | Compose tarafından oluşturulacak veritabanı adı. |
 | `POSTGRES_USER` | Docker için | PostgreSQL kullanıcısı. |
 | `POSTGRES_PASSWORD` | Docker için | Güçlü ve gizli PostgreSQL parolası. |
