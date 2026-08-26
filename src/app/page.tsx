@@ -1,44 +1,23 @@
-import { Navbar } from "@/components/navbar";
-import { Hero } from "@/components/hero";
-import { VaccineTracker } from "@/components/vaccine-tracker"; // Bileşen importları
-import { MythsFacts } from "@/components/myths-facts";
-import { TurkeyMap } from "@/components/turkiye-map";
+import { HomeDashboard } from "@/components/home/home-dashboard";
 import { Symptoms } from "@/components/symptoms";
-import { ResourcesSection } from "@/components/resources-section"; // Bileşen importları
-import { LatestNews } from "@/components/latest-news";
+import { ResourcesSection } from "@/components/resources-section";
 import { FAQ } from "@/components/faq";
 import { Footer } from "@/components/footer";
+import { query } from "@/lib/db";
 
-export default function Home() {
+interface NewsItem { id:string;title:string;source:string;tag:string;published_at:string;link:string|null }
+export default async function Home() {
+  const [counts, news] = await Promise.all([
+    query<{reports:number;contributions:number;news:number}>(`SELECT (SELECT count(*)::int FROM reports) reports,(SELECT count(*)::int FROM contribution_requests) contributions,(SELECT count(*)::int FROM news) news`),
+    query<NewsItem>(`SELECT id,title,source,tag,published_at,link FROM news ORDER BY published_at DESC LIMIT 3`),
+  ]);
   return (
-    <main className="min-h-screen flex flex-col">
-      {/* Üst Menü */}
-      <Navbar />
-
-      {/* Ana Karşılama ve Aksiyon Butonları */}
-      <Hero />
-
-      {/* Bilinçlendirme Bölümü */}
-      <MythsFacts />
-
-      {/* Durum Analizi Bölümü */}
-      <TurkeyMap />
-
-      {/* Eğitim Bölümü */}
+    <>
+      <HomeDashboard stats={counts.rows[0]} news={news.rows} />
       <Symptoms />
-
-      {/* Materyal Bölümü */}
-      {/* İndirilebilir içerikler için yerleşim */}
       <ResourcesSection />
-
-      {/* Güncel Haberler Bölümü */}
-      <LatestNews />
-
-      {/* Destek Bölümü */}
       <FAQ />
-
-      {/* Alt Bilgi ve Yasal Uyarı */}
       <Footer />
-    </main>
+    </>
   );
 }

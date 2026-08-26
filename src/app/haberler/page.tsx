@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PageHero } from "@/components/site-page";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,7 +25,6 @@ import {
     Clock
 } from "lucide-react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
 
 interface NewsItem {
     id: string;
@@ -45,17 +44,15 @@ export default function NewsPage() {
 
     useEffect(() => {
         const fetchNews = async () => {
-            const { data, error } = await supabase
-                .from('news')
-                .select('*')
-                .order('published_at', { ascending: false });
-
-            if (error) {
+            try {
+                const response = await fetch('/api/news');
+                if (!response.ok) throw new Error('Haberler alınamadı');
+                setNews(await response.json());
+            } catch (error) {
                 console.error('Error fetching news:', error);
-            } else {
-                setNews(data || []);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
 
         fetchNews();
@@ -102,7 +99,7 @@ export default function NewsPage() {
                 );
             case "NORMALLEŞME":
                 return (
-                    <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2.5 py-1 rounded-md border border-blue-100 dark:border-blue-800 w-fit">
+                    <div className="flex items-center gap-2 text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200 w-fit">
                         <Info className="w-3.5 h-3.5" />
                         <span className="text-[11px] font-bold uppercase tracking-wide">Normalleşme</span>
                     </div>
@@ -125,21 +122,9 @@ export default function NewsPage() {
     };
 
     return (
-        <main className="min-h-screen bg-muted/30 flex flex-col">
-            <Navbar />
-
-            {/* Header & Search */}
-            <div className="bg-background border-b border-border pt-12 pb-8">
-                <div className="container max-w-5xl mx-auto px-4">
-                    <div className="flex flex-col md:flex-row justify-between items-end gap-6">
-                        <div>
-                            <div className="flex items-center gap-2 mb-2 text-red-600 font-bold text-sm uppercase tracking-wider">
-                                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" /> Canlı Haber Akışı
-                            </div>
-                            <h1 className="text-3xl font-bold text-foreground">Haberler ve Bildirimler</h1>
-                            <p className="text-muted-foreground mt-1">Resmi kurum açıklamaları ve sahadan gelen doğrulanmış veriler.</p>
-                        </div>
-                        <div className="relative w-full md:w-96">
+        <main className="min-h-screen bg-[#f7f9fc] text-slate-950 flex flex-col">
+            <PageHero eyebrow="Canlı haber akışı" title="Haberler ve" accent="bildirimler." description="Resmî kurum açıklamalarını, sahadan gelen kayıtları ve doğrulanmış gelişmeleri tek akışta takip edin.">
+                        <div className="relative w-full max-w-md">
                             <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Anahtar kelime ile filtrele..."
@@ -148,30 +133,28 @@ export default function NewsPage() {
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                         </div>
-                    </div>
-
-                    {/* Disclaimer Alert */}
-                    <div className="mt-8 bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 rounded-lg p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+            </PageHero>
+            <div className="mx-auto w-full max-w-5xl px-5 pt-8 lg:px-8">
+                    <div className="rounded-xl border border-slate-200 bg-white p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                         <div className="flex gap-3">
-                            <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5 sm:mt-0" />
-                            <div className="text-sm text-blue-700 dark:text-blue-300">
+                            <Info className="w-5 h-5 text-red-600 shrink-0 mt-0.5 sm:mt-0" />
+                            <div className="text-sm leading-6 text-slate-600">
                                 <p>
                                     <strong>Otomatik Veri Toplama:</strong> Haber başlıkları, görselleri ve özetleri otomatik sistemlerce oluşturulmuştur ve kesinlik taşımayabilir.
                                     Platformumuz, kaynak haberin içeriğinden ve doğruluğundan sorumlu değildir.
                                 </p>
                             </div>
                         </div>
-                        <Button variant="outline" size="sm" className="shrink-0 text-xs h-8 border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-700 dark:text-blue-300" asChild>
+                        <Button variant="outline" size="sm" className="shrink-0 text-xs h-8 border-slate-200 hover:border-red-200 hover:text-red-600" asChild>
                             <Link href="/yasal-uyari">
                                 Devamını Gör <ChevronRight className="w-3 h-3 ml-1" />
                             </Link>
                         </Button>
                     </div>
-                </div>
             </div>
 
             {/* Liste Görünümü */}
-            <div className="flex-1 container max-w-5xl mx-auto px-4 py-8">
+            <div className="flex-1 mx-auto w-full max-w-5xl px-5 py-8 lg:px-8 lg:pb-16">
 
                 <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
                     {/* Tablo Başlığı (Masaüstü) */}

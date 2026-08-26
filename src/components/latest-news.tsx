@@ -1,14 +1,17 @@
 import { ArrowRight, Calendar, Newspaper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { query } from "@/lib/db";
+
+interface NewsItem {
+  id: string; title: string; summary: string; source: string;
+  published_at: string; image_url: string | null; link: string | null;
+}
 
 export async function LatestNews() {
-  const { data: news } = await supabase
-    .from('news')
-    .select('*')
-    .order('published_at', { ascending: false })
-    .limit(3);
+  const { rows: news } = await query<NewsItem>(
+    `SELECT id, title, summary, source, published_at, image_url, link FROM news ORDER BY published_at DESC LIMIT 3`,
+  );
 
   return (
     <section className="py-16 bg-muted/30 border-t border-border">
@@ -28,8 +31,8 @@ export async function LatestNews() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {news?.map((item, i) => (
-            <Link href={item.link || '#'} key={i} target={item.link ? "_blank" : undefined} className="group bg-card rounded-xl overflow-hidden border border-border hover:shadow-lg transition-all cursor-pointer block">
+          {news.map((item) => (
+            <Link href={item.link || '#'} key={item.id} target={item.link ? "_blank" : undefined} className="group bg-card rounded-xl overflow-hidden border border-border hover:shadow-lg transition-all cursor-pointer block">
               {/* Görsel Alanı */}
               <div className="h-48 w-full bg-muted flex items-center justify-center overflow-hidden">
                 {item.image_url ? (

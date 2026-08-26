@@ -1,13 +1,12 @@
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
+import { PageHero } from "@/components/site-page";
 
 export function LegalLayout({ children, title, active }: { children: React.ReactNode, title: string, active: string }) {
   return (
-    <main className="min-h-screen bg-background flex flex-col">
-      <Navbar />
-      <div className="container mx-auto px-4 py-12 flex-1">
+    <main className="min-h-screen bg-[#f7f9fc] text-slate-950 flex flex-col">
+      <PageHero eyebrow="Yasal ve şeffaflık" title={title} description="Kuduz.org hizmetlerinin kullanımına, veri işleme yaklaşımına ve yasal sorumluluklara ilişkin güncel bilgilendirme metni." />
+      <div className="mx-auto w-full max-w-[1180px] px-5 py-12 lg:px-8 lg:py-16 flex-1">
         <div className="flex flex-col lg:flex-row gap-8">
 
           {/* SOL: Yasal Menü */}
@@ -23,7 +22,6 @@ export function LegalLayout({ children, title, active }: { children: React.React
           {/* SAĞ: İçerik */}
           <div className="flex-1">
             <div className="bg-card rounded-2xl border border-border shadow-sm p-8 md:p-12">
-              <h1 className="text-3xl font-bold text-foreground mb-8 border-b border-border pb-4">{title}</h1>
               <article className="prose prose-slate dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-blue-600">
                 {children}
               </article>

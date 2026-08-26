@@ -1,330 +1,98 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Droplets,
-  Hospital,
-  Syringe,
-  CalendarClock,
-  CheckCircle2,
-  Play,
-  Pause,
-  RotateCcw,
-  AlertTriangle,
-  ArrowDown,
-  BookOpen,
-  ChevronDown,
-  ChevronUp
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { AlertTriangle, BookOpen, CalendarClock, Check, ChevronDown, Droplets, Hospital, MapPin, Pause, Play, RotateCcw, Syringe } from "lucide-react";
 
-// Adım verileri ve açıklamalar
 const steps = [
-  {
-    id: 1,
-    title: "Yarayı Yıkayın",
-    subtitle: "En Kritik İlk Adım",
-    icon: <Droplets className="w-6 h-6" />,
-    color: "bg-blue-500",
-    lightColor: "bg-blue-50 dark:bg-blue-900/20",
-    content: "Washing",
-    extraInfo: {
-      title: "Neden Sabun?",
-      text: "Kuduz virüsü, 'zarflı' (enveloped) bir virüstür. Dış yapısı yağ (lipid) tabakasından oluşur. Sabun ve deterjanlar bu yağ tabakasını kimyasal olarak çözer ve virüsü parçalar (inaktive eder). Sadece suyla yıkamak virüsü mekanik olarak uzaklaştırır, ancak sabun virüsü öldürür. Bu işlem virüs yükünü %90'a kadar azaltabilir."
-    }
-  },
-  {
-    id: 2,
-    title: "Sağlık Kuruluşuna Gidin",
-    subtitle: "Vakit Kaybetmeyin",
-    icon: <Hospital className="w-6 h-6" />,
-    color: "bg-red-500",
-    lightColor: "bg-red-50 dark:bg-red-900/20",
-    content: "Hospital",
-    extraInfo: {
-      title: "Aşı mı, Serum mu?",
-      text: "Doktorunuz yaranın durumuna göre (Kategori III temas gibi) sadece aşı değil, 'Kuduz İmmünoglobulini' (RIG) de uygulayabilir. Aşı, vücudun kendi antikorunu üretmesini sağlar (ki bu 7-10 gün sürer), Serum (RIG) ise dışarıdan hazır asker (antikor) vererek o kritik 7 günlük boşlukta virüsü nötralize eder."
-    }
-  },
-  {
-    id: 3,
-    title: "Aşı Takvimi",
-    subtitle: "Hayat Kurtaran Dozlar",
-    icon: <Syringe className="w-6 h-6" />,
-    color: "bg-emerald-500",
-    lightColor: "bg-emerald-50 dark:bg-emerald-900/20",
-    content: "Vaccine",
-    extraInfo: {
-      title: "Neden 4 Doz?",
-      text: "Bağışıklık sisteminin hafızasını güçlendirmek için dozların tekrarı şarttır. Türkiye'de genellikle Zagreb (2-1-1) veya 4 dozluk (0-3-7-14) şema uygulanır. İlk dozlar 'IgM' antikorlarını, sonraki dozlar ise uzun süreli koruma sağlayan 'IgG' antikorlarını zirveye çıkarır."
-    }
-  },
-  {
-    id: 4,
-    title: "Gözlem Süreci",
-    subtitle: "Hayvanı Takip Edin",
-    icon: <CalendarClock className="w-6 h-6" />,
-    color: "bg-orange-500",
-    lightColor: "bg-orange-50 dark:bg-orange-900/20",
-    content: "Observation",
-    extraInfo: {
-      title: "10 Gün Kuralının Bilimsel Açıklaması",
-      text: "Kuduz virüsü bir hayvanın beynine ulaşıp orada çoğaldıktan sonra tükürük bezlerine iner. Hayvan ancak bu aşamada (tükürüğünde virüs varken) bulaştırıcıdır. Eğer virüs beyne ulaştıysa, hayvan %100 ihtimalle 10 gün içinde ölür. Yani hayvan 10 gün yaşıyorsa, sizi ısırdığı anda tükürüğünde virüs yoktu demektir."
-    }
-  }
-];
+  { id: 1, title: "Yarayı yıkayın", subtitle: "En kritik ilk adım", icon: Droplets, tone: "blue" },
+  { id: 2, title: "Sağlık kuruluşuna gidin", subtitle: "Vakit kaybetmeyin", icon: Hospital, tone: "red" },
+  { id: 3, title: "Aşı planını takip edin", subtitle: "Hekiminizin takvimi esastır", icon: Syringe, tone: "emerald" },
+  { id: 4, title: "Gözlem sürecini yönetin", subtitle: "Yetkililerle birlikte takip edin", icon: CalendarClock, tone: "amber" },
+] as const;
+
+const tones = {
+  blue: "bg-red-50 text-red-600 border-red-100",
+  red: "bg-red-50 text-red-600 border-red-100",
+  emerald: "bg-slate-100 text-slate-700 border-slate-200",
+  amber: "bg-red-50/70 text-red-500 border-red-100",
+};
 
 export function GuidanceTimeline() {
   const [activeStep, setActiveStep] = useState(1);
-  const [expandedInfo, setExpandedInfo] = useState<number | null>(null);
 
-  useEffect(() => {
-    // İlk adımdan sonraki adımlarda otomatik kaydırma
-    // Sayfa yüklendiğinde kaydırma yapma
-    if (activeStep > 1) {
-      const element = document.getElementById(`step-${activeStep}`);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    }
-  }, [activeStep]);
-
-  const handleStepChange = (stepId: number) => {
-    setActiveStep(stepId);
-    setExpandedInfo(null);
+  const selectStep = (id: number) => {
+    setActiveStep(id);
+    requestAnimationFrame(() => document.getElementById("aktif-adim")?.scrollIntoView({ behavior: "smooth", block: "center" }));
   };
 
   return (
-    <div className="max-w-4xl mx-auto relative">
-      <div className="absolute left-8 top-0 bottom-0 w-1 bg-slate-200 dark:bg-slate-800 -z-10 hidden md:block" />
+    <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
+      <nav aria-label="Rehber adımları" className="h-fit overflow-hidden rounded-2xl border border-slate-200 bg-white lg:sticky lg:top-24">
+        <div className="border-b border-slate-200 px-6 py-5"><strong className="text-sm">4 adımda doğru müdahale</strong><p className="mt-1 text-xs text-slate-500">Tamamladığınız adımdan devam edin.</p></div>
+        {steps.map(({ id, title, subtitle, icon: Icon, tone }) => {
+          const active = activeStep === id;
+          return <button key={id} onClick={() => selectStep(id)} className={`flex w-full items-center gap-4 border-b border-slate-100 px-5 py-5 text-left transition-colors last:border-0 ${active ? "bg-slate-950 text-white" : "hover:bg-slate-50"}`}>
+            <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl border ${active ? "border-white/10 bg-white/10 text-white" : tones[tone]}`}>{id < activeStep ? <Check className="h-5 w-5" /> : <Icon className="h-5 w-5" />}</span>
+            <span className="min-w-0"><small className={`block text-[10px] font-bold uppercase tracking-wider ${active ? "text-red-400" : "text-slate-400"}`}>Adım 0{id}</small><strong className="mt-0.5 block text-sm">{title}</strong><span className={`mt-1 block text-xs ${active ? "text-slate-400" : "text-slate-500"}`}>{subtitle}</span></span>
+          </button>;
+        })}
+      </nav>
 
-      <div className="space-y-12">
-        {steps.map((step, index) => (
-          <motion.div
-            key={step.id}
-            id={`step-${step.id}`}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className={`relative flex flex-col md:flex-row gap-6 ${activeStep === step.id ? 'opacity-100' : 'opacity-60 hover:opacity-100 transition-opacity'}`}
-            onClick={() => setActiveStep(step.id)}
-          >
-            <div className="hidden md:flex flex-col items-center">
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg z-10 border-4 border-white dark:border-slate-900 ${step.id <= activeStep ? step.color : "bg-slate-300 dark:bg-slate-700"}`}>
-                {step.id < activeStep ? <CheckCircle2 className="w-8 h-8" /> : step.icon}
-              </div>
-            </div>
-
-            <Card className={`flex-1 border-2 overflow-hidden transition-all duration-300 ${activeStep === step.id ? "border-slate-300 dark:border-slate-600 shadow-xl scale-[1.02]" : "border-slate-100 dark:border-slate-800"}`}>
-              <div className={`p-4 border-b flex items-center justify-between ${step.lightColor}`}>
-                <div className="flex items-center gap-3">
-                  <div className={`md:hidden p-2 rounded-full text-white ${step.color}`}>
-                    {step.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground">
-                      {index + 1}. {step.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground font-medium">{step.subtitle}</p>
-                  </div>
-                </div>
-                {activeStep === step.id && (
-                  <Badge className={`${step.color} animate-pulse`}>Şu anki adım</Badge>
-                )}
-              </div>
-
-              <div className="p-6">
-
-                {/* Ana İçerik Alanı */}
-                {step.content === "Washing" && <WashingTimer />}
-                {step.content === "Hospital" && <HospitalInfo />}
-                {step.content === "Vaccine" && <VaccineTimeline />}
-                {step.content === "Observation" && <ObservationInfo />}
-
-                {/* Ek Bilgi Alanı */}
-                <div className="mt-8 pt-4 border-t border-border">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setExpandedInfo(expandedInfo === step.id ? null : step.id);
-                    }}
-                    className="flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
-                  >
-                    <BookOpen className="w-4 h-4" />
-                    {expandedInfo === step.id ? "Bilgiyi Gizle" : "Detaylı Bilgi"}
-                    {expandedInfo === step.id ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                  </button>
-
-                  <AnimatePresence>
-                    {expandedInfo === step.id && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-4 p-4 bg-muted/50 rounded-lg border border-border text-muted-foreground text-sm leading-relaxed">
-                          <strong className="block text-foreground mb-2">{step.extraInfo.title}</strong>
-                          {step.extraInfo.text}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* İlerleme Butonu */}
-                {activeStep === step.id && step.id < 4 && (
-                  <div className="mt-6 flex justify-end">
-                    <Button onClick={(e) => { e.stopPropagation(); handleStepChange(step.id + 1); }} className="gap-2">
-                      Tamamladım, Sonraki Adım <ArrowDown className="w-4 h-4" />
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </Card>
-          </motion.div>
-        ))}
+      <div id="aktif-adim" className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <StepHeader step={steps[activeStep - 1]} />
+        <div className="p-6 md:p-9">
+          {activeStep === 1 && <WashingTimer />}
+          {activeStep === 2 && <HospitalInfo />}
+          {activeStep === 3 && <VaccineTimeline />}
+          {activeStep === 4 && <ObservationInfo />}
+          <div className="mt-9 flex flex-col-reverse justify-between gap-3 border-t border-slate-200 pt-6 sm:flex-row">
+            {activeStep > 1 ? <button onClick={() => selectStep(activeStep - 1)} className="rounded-lg px-4 py-2 text-sm font-bold text-slate-500 hover:bg-slate-50">Önceki adım</button> : <span />}
+            {activeStep < 4 ? <button onClick={() => selectStep(activeStep + 1)} className="rounded-lg bg-red-600 px-5 py-3 text-sm font-bold text-white hover:bg-red-700">Tamamladım, sonraki adım</button> : <Link href="/risk-haritasi" className="rounded-lg bg-slate-950 px-5 py-3 text-center text-sm font-bold text-white hover:bg-slate-800">Risk haritasına git</Link>}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-// Alt Bileşenler
+function StepHeader({ step }: { step: (typeof steps)[number] }) {
+  const Icon = step.icon;
+  return <div className="flex items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-6 md:px-9"><span className={`grid h-12 w-12 place-items-center rounded-xl border ${tones[step.tone]}`}><Icon className="h-6 w-6" /></span><div><small className="font-bold uppercase tracking-[.14em] text-slate-400">Adım 0{step.id}</small><h3 className="mt-1 text-xl font-black text-slate-950 md:text-2xl">{step.title}</h3></div></div>;
+}
 
 function WashingTimer() {
   const [time, setTime] = useState(900);
-  const [isActive, setIsActive] = useState(false);
+  const [running, setRunning] = useState(false);
+
   useEffect(() => {
-    let interval: any;
-    if (isActive && time > 0) interval = setInterval(() => setTime((t) => t - 1), 1000);
-    else if (time === 0) setIsActive(false);
+    if (!running || time <= 0) return;
+    const interval: ReturnType<typeof setInterval> = setInterval(() => setTime((value) => Math.max(0, value - 1)), 1000);
     return () => clearInterval(interval);
-  }, [isActive, time]);
-  const format = (s: number) => `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
+  }, [running, time]);
 
-  return (
-    <div className="space-y-6">
-      <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-800 text-blue-800 dark:text-blue-200 text-sm">
-        <strong className="block mb-1 text-lg">🧪 En Önemli Adım!</strong>
-        Kuduz virüsü sabuna ve deterjana karşı dayanıksızdır. Yarayı köpürterek yıkamak virüs yükünü %90 oranında azaltabilir.
-      </div>
-
-      <div className="flex flex-col items-center justify-center py-8 bg-muted/30 rounded-xl border border-border">
-        <span className="text-6xl font-mono font-bold text-foreground mb-6 tracking-wider">{format(time)}</span>
-        <div className="flex gap-3 w-full max-w-xs">
-          <Button onClick={() => setIsActive(!isActive)} size="lg" className={`flex-1 ${isActive ? "bg-yellow-500 hover:bg-yellow-600 text-white" : "bg-blue-600 hover:bg-blue-700"}`}>
-            {isActive ? <><Pause className="w-5 h-5 mr-2" /> Duraklat</> : <><Play className="w-5 h-5 mr-2" /> Süreyi Başlat</>}
-          </Button>
-          <Button variant="outline" size="icon" onClick={() => { setIsActive(false); setTime(900); }}>
-            <RotateCcw className="w-5 h-5" />
-          </Button>
-        </div>
-        <p className="text-xs text-muted-foreground mt-4 font-medium">
-          *15 dakika dolana kadar yıkamaya devam edin.
-        </p>
-      </div>
-    </div>
-  );
+  const display = `${Math.floor(time / 60).toString().padStart(2, "0")}:${(time % 60).toString().padStart(2, "0")}`;
+  return <div className="grid gap-7 md:grid-cols-[1fr_260px] md:items-center">
+    <div><h4 className="text-2xl font-black text-slate-950">Bol su ve sabunla 15 dakika yıkayın</h4><p className="mt-4 leading-7 text-slate-600">Yaranın içini ve çevresini nazikçe köpürtün. Varsa antiseptik uygulayın; yarayı sıkıca kapatmayın ve sağlık kuruluşuna başvurmayı ertelemeyin.</p><Info title="Neden önemli?">Yıkama, yara bölgesindeki virüs yükünün fiziksel ve kimyasal olarak azaltılmasına yardımcı olan en önemli ilk yardım adımıdır.</Info></div>
+    <div className="rounded-2xl bg-red-50 p-6 text-center"><small className="font-bold uppercase tracking-wider text-red-600">Yıkama sayacı</small><strong className="mt-4 block font-mono text-5xl tracking-tight text-slate-950">{display}</strong><div className="mt-6 flex gap-2"><button onClick={() => time > 0 && setRunning(!running)} className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg bg-red-600 text-sm font-bold text-white hover:bg-red-700">{running ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}{running ? "Duraklat" : "Başlat"}</button><button aria-label="Sayacı sıfırla" onClick={() => { setRunning(false); setTime(900); }} className="grid h-11 w-11 place-items-center rounded-lg border border-red-200 bg-white text-red-600"><RotateCcw className="h-4 w-4" /></button></div></div>
+  </div>;
 }
 
 function HospitalInfo() {
-  return (
-    <div className="space-y-6">
-      <p className="text-muted-foreground text-lg leading-relaxed">
-        Yarayı yıkadıktan sonra vakit kaybetmeden <strong>en yakın sağlık kuruluşuna</strong> başvurmalısınız.
-      </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="p-5 border rounded-xl bg-card hover:border-red-200 dark:hover:border-red-800 hover:shadow-sm transition-all">
-          <strong className="block text-foreground mb-2 text-lg">Nereye Gidilmeli?</strong>
-          <p className="text-muted-foreground">Devlet Hastaneleri Acil Servisleri veya Kuduz Aşı Merkezleri.</p>
-        </div>
-        <div className="p-5 border rounded-xl bg-card hover:border-red-200 dark:hover:border-red-800 hover:shadow-sm transition-all">
-          <strong className="block text-foreground mb-2 text-lg">Ne Söylenmeli?</strong>
-          <p className="text-muted-foreground">"Kuduz riskli temas" olduğunu ve hayvanın durumunu (kaçtı, sahipli, öldü vb.) mutlaka belirtin.</p>
-        </div>
-      </div>
-      <Alert variant="destructive" className="bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-900">
-        <AlertTriangle className="w-5 h-5" />
-        <AlertDescription className="text-red-800 dark:text-red-200 font-medium ml-2">
-          Yara baş/boyun bölgesindeyse veya derinse, virüsün beyne ulaşma yolu kısaldığı için aciliyet seviyesi yüksektir.
-        </AlertDescription>
-      </Alert>
-    </div>
-  )
+  return <div><h4 className="text-2xl font-black text-slate-950">Belirti oluşmasını beklemeyin</h4><p className="mt-4 leading-7 text-slate-600">Yarayı temizledikten sonra en yakın sağlık kuruluşuna başvurun. Temasın zamanı, yeri, hayvanın türü ve mevcut durumu hakkında bildiklerinizi hekime aktarın.</p><div className="mt-7 grid gap-4 sm:grid-cols-2"><Advice number="01" title="Nereye gidilmeli?">Devlet hastanesi acil servisi veya kuduz profilaksisi uygulayan sağlık kuruluşu.</Advice><Advice number="02" title="Yanınızda ne olsun?">Varsa önceki aşı kayıtlarınız ve hayvanın aşı karnesine ilişkin bilgiler.</Advice></div><div className="mt-6 flex gap-3 rounded-xl border border-red-200 bg-red-50 p-5 text-sm leading-6 text-red-800"><AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" /><p>Baş-boyun bölgesi, el-parmaklar, derin veya çoklu yaralanmalar özellikle hızlı değerlendirilmelidir.</p></div><Link href="/acil-noktalar" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-red-600"><MapPin className="h-4 w-4" /> Yakındaki acil noktaları bul</Link></div>;
 }
 
 function VaccineTimeline() {
-  const doses = [
-    { day: 0, label: "İlk Doz", desc: "Hastaneye gittiğiniz gün" },
-    { day: 3, label: "2. Doz", desc: "İlk dozdan 3 gün sonra" },
-    { day: 7, label: "3. Doz", desc: "İlk dozdan 1 hafta sonra" },
-    { day: 14, label: "4. Doz", desc: "Tam koruma için son doz" },
-  ];
-
-  return (
-    <div className="space-y-8">
-      <p className="text-muted-foreground">
-        Türkiye'de uygulanan standart 4 dozluk (Zagreb Protokolü değişiklik gösterebilir) şema şöyledir:
-      </p>
-
-      <div className="relative py-6 px-2">
-        {/* Çizgi */}
-        <div className="absolute top-[50px] left-4 right-4 h-1 bg-muted -z-0" />
-
-        <div className="relative z-10 grid grid-cols-4 gap-2">
-          {doses.map((dose, i) => (
-            <div key={i} className="flex flex-col items-center group text-center">
-              <div className="w-14 h-14 rounded-full bg-card border-[5px] border-emerald-500 flex items-center justify-center text-lg font-bold text-foreground shadow-sm group-hover:scale-110 group-hover:border-emerald-600 transition-all cursor-default mb-4">
-                {dose.day}
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-sm font-bold text-emerald-700 dark:text-emerald-400 mb-1">{dose.label}</span>
-                <span className="text-[11px] text-muted-foreground leading-tight max-w-[80px]">{dose.desc}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-lg text-sm text-emerald-800 dark:text-emerald-200 border border-emerald-100 dark:border-emerald-800 flex gap-3">
-        <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-emerald-600" />
-        <div>
-          <strong>Önemli:</strong> Bu takvim standarttır. Hekiminiz hayvanın durumuna göre aşıyı 3. dozda kesebilir veya farklı bir takvim uygulayabilir. Hekimin takvimi esastır.
-        </div>
-      </div>
-    </div>
-  )
+  const doses = [{ day: "0", label: "Başvuru günü" }, { day: "3", label: "İkinci kontrol" }, { day: "7", label: "Takip dozu" }, { day: "14", label: "Takip dozu" }];
+  return <div><h4 className="text-2xl font-black text-slate-950">Size verilen takvimi eksiksiz uygulayın</h4><p className="mt-4 leading-7 text-slate-600">Aşağıdaki günler yaygın kullanılan şemayı örnekler. Temasın niteliği, önceki aşılar ve hekim değerlendirmesi nedeniyle kişisel planınız farklı olabilir.</p><div className="mt-8 grid gap-3 sm:grid-cols-4">{doses.map((dose, index) => <div key={dose.day} className="rounded-xl border border-slate-200 p-5"><span className="text-xs font-bold text-red-600">{index + 1}. DOZ</span><strong className="mt-3 block text-3xl text-slate-950">Gün {dose.day}</strong><small className="mt-2 block text-slate-500">{dose.label}</small></div>)}</div><Info title="Takvimi kim belirler?">Aşı ve kuduz immünglobulini gereksinimine yalnızca sağlık profesyoneli karar verir. Randevularınızı kendi kararınızla kesmeyin veya değiştirmeyin.</Info></div>;
 }
 
 function ObservationInfo() {
-  return (
-    <div className="space-y-6 text-muted-foreground">
-      <p className="text-lg">
-        Kuduz virüsü hayvanın salyasında ancak hayvan ölmeden <strong>en fazla 10 gün önce</strong> belirmeye başlar.
-      </p>
-      <ul className="grid gap-3">
-        <li className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg border border-border">
-          <div className="w-2 h-2 mt-2 rounded-full bg-green-500 flex-shrink-0" />
-          <span>Hayvan <strong>sahipli ve aşıları tam ise</strong>, genellikle 10 gün gözlem altında tutulur.</span>
-        </li>
-        <li className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg border border-border">
-          <div className="w-2 h-2 mt-2 rounded-full bg-green-500 flex-shrink-0" />
-          <span>Hayvan bu 10 günü <strong>sağlıklı bir şekilde atlatırsa</strong>, ısırdığı anda kuduz bulaştırma ihtimali yoktur.</span>
-        </li>
-        <li className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg border border-border">
-          <div className="w-2 h-2 mt-2 rounded-full bg-orange-500 flex-shrink-0" />
-          <span>Hayvan <strong>kaçtıysa, öldüyse veya sahipsizse</strong>, doktor aşı takvimini tamamlamanızı isteyecektir.</span>
-        </li>
-      </ul>
-      <div className="flex gap-3 mt-2">
-        <Badge variant="outline" className="border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 py-1 px-3">10 Gün Kuralı</Badge>
-        <Badge variant="outline" className="border-border bg-muted text-muted-foreground py-1 px-3">Veteriner Kontrolü</Badge>
-      </div>
-    </div>
-  )
+  return <div><h4 className="text-2xl font-black text-slate-950">Hayvanın takibini yetkililere bırakın</h4><p className="mt-4 leading-7 text-slate-600">Uygun durumlarda sahipli kedi ve köpekler veteriner gözetiminde izlenebilir. Bu süreç, sağlık kuruluşuna başvurmanın veya önerilen profilaksinin yerine geçmez.</p><div className="mt-7 space-y-3"><CheckRow>Sahipli hayvanın kimlik ve aşı bilgilerini kaydedin.</CheckRow><CheckRow>Hayvanın kaçması, hastalanması veya ölmesi halinde sağlık ekibine bilgi verin.</CheckRow><CheckRow>Sahipsiz ya da yabani hayvanı kendiniz yakalamaya çalışmayın.</CheckRow></div><Info title="10 günlük gözlem">Kedi ve köpeklerde gözlem kararı veteriner ve sağlık otoritelerince verilir. Aşı planınızı yalnızca sizi değerlendiren hekim değiştirebilir.</Info></div>;
 }
+
+function Info({ title, children }: { title: string; children: React.ReactNode }) {
+  return <details className="group mt-7 rounded-xl border border-slate-200 bg-slate-50 p-5"><summary className="flex cursor-pointer list-none items-center gap-3 text-sm font-bold text-slate-800"><BookOpen className="h-4 w-4 text-red-600" />{title}<ChevronDown className="ml-auto h-4 w-4 transition-transform group-open:rotate-180" /></summary><p className="mt-4 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-600">{children}</p></details>;
+}
+function Advice({ number, title, children }: { number: string; title: string; children: React.ReactNode }) { return <div className="rounded-xl border border-slate-200 p-5"><small className="font-bold text-red-600">{number}</small><strong className="mt-2 block text-slate-950">{title}</strong><p className="mt-2 text-sm leading-6 text-slate-500">{children}</p></div>; }
+function CheckRow({ children }: { children: React.ReactNode }) { return <div className="flex gap-3 rounded-xl border border-slate-200 px-5 py-4 text-sm leading-6 text-slate-600"><span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-slate-100 text-slate-600"><Check className="h-3 w-3" /></span>{children}</div>; }

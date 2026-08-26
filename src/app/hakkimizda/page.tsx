@@ -1,5 +1,5 @@
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PageHero } from "@/components/site-page";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Heart, ShieldCheck, Activity, Scale, Users, Lightbulb } from "lucide-react";
@@ -7,34 +7,12 @@ import Image from "next/image"; // Görsel kullanımı için import
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-background flex flex-col">
-      <Navbar />
-
-      {/* Hero Bölümü */}
-      <section className="relative bg-card border-b border-border py-20 md:py-32 overflow-hidden">
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <Badge variant="secondary" className="mb-6 px-4 py-1 text-sm font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-100 dark:border-blue-800">
-            Hikayemiz ve Misyonumuz
-          </Badge>
-          <h1 className="text-4xl md:text-6xl font-extrabold text-foreground tracking-tight mb-6">
-            Bilgiyle Koru, <span className="text-primary">Sevgiyle Yaşa.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Kuduz.org, Türkiye'de artan kuduz vakalarına karşı toplumu bilimsel verilerle bilinçlendirmek,
-            insan ve hayvan sağlığını ortak bir paydada korumak amacıyla kurulmuş bağımsız bir sivil inisiyatiftir.
-          </p>
-        </div>
-
-        {/* Arkaplan Dekoru */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none">
-          <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-red-100 dark:bg-red-900/20 rounded-full blur-[100px]" />
-          <div className="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-[100px]" />
-        </div>
-      </section>
+    <main className="min-h-screen bg-[#f7f9fc] text-slate-950 flex flex-col">
+      <PageHero eyebrow="Hikâyemiz ve misyonumuz" title="Bilgiyle koru," accent="birlikte önle." description="Kuduz.org, toplumu bilimsel verilerle bilinçlendirmek ve insan-hayvan sağlığını ortak bir paydada korumak için çalışan bağımsız bir sivil inisiyatiftir." />
 
       {/* Değerler Bölümü (Grid) */}
       <section className="py-20">
-        <div className="container mx-auto px-4">
+        <div className="mx-auto max-w-[1320px] px-5 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
             {/* Kart 1 */}
@@ -53,7 +31,7 @@ export default function AboutPage() {
             {/* Kart 2 */}
             <Card className="border-none shadow-lg bg-card/50 backdrop-blur">
               <CardContent className="p-8 text-center">
-                <div className="w-14 h-14 mx-auto bg-blue-100 dark:bg-blue-900/20 rounded-2xl flex items-center justify-center mb-6 text-blue-600">
+                <div className="w-14 h-14 mx-auto bg-slate-100 rounded-2xl flex items-center justify-center mb-6 text-slate-600">
                   <Scale className="w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-3">Tarafsızlık İlkesi</h3>
@@ -66,7 +44,7 @@ export default function AboutPage() {
             {/* Kart 3 */}
             <Card className="border-none shadow-lg bg-card/50 backdrop-blur">
               <CardContent className="p-8 text-center">
-                <div className="w-14 h-14 mx-auto bg-green-100 dark:bg-green-900/20 rounded-2xl flex items-center justify-center mb-6 text-green-600">
+                <div className="w-14 h-14 mx-auto bg-red-50 rounded-2xl flex items-center justify-center mb-6 text-red-500">
                   <ShieldCheck className="w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-3">Kamu Yararı</h3>
@@ -112,7 +90,7 @@ export default function AboutPage() {
               </div>
               <div className="flex gap-4">
                 <div className="mt-1">
-                  <Users className="w-6 h-6 text-blue-600" />
+                  <Users className="w-6 h-6 text-red-600" />
                 </div>
                 <div>
                   <h4 className="font-bold ">Toplumsal Sorumluluk ve İş Birliği</h4>

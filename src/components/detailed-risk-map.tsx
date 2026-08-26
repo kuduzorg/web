@@ -9,7 +9,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { Search, MapPin, AlertTriangle, Syringe, Building2, Calendar, Activity, Edit } from "lucide-react";
 import geoData from "@/data/turkiye-geo.json";
-import { rabiesData, CityRabiesData } from "@/data/rabies-data";
+import type { CityRabiesData } from "@/data/rabies-data";
+import { useRabiesData } from "@/hooks/use-rabies-data";
 
 // -- TİP TANIMLAMALARI --
 type Feature = {
@@ -25,7 +26,7 @@ type Feature = {
 };
 
 export function DetailedRiskMap() {
-  const [cityData] = useState<Record<string, CityRabiesData>>(rabiesData);
+  const cityData: Record<string, CityRabiesData> = useRabiesData();
   const [selectedCityId, setSelectedCityId] = useState<string | null>(null);
   const [hoveredCityId, setHoveredCityId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -75,6 +76,10 @@ export function DetailedRiskMap() {
   }, []);
 
   // Renk mantığı ve risk seviyeleri
+  const hasCityData = (id: string) => {
+    const city = cityData[id];
+    return Boolean(city && (city.confirmedCases > 0 || city.riskContactCount > 0 || city.hospitals > 0 || city.vets > 0 || city.lastCase !== "-"));
+  };
   const getFillColor = (id: string) => {
     const isSelected = selectedCityId === id;
     const isHovered = hoveredCityId === id;
@@ -83,15 +88,16 @@ export function DetailedRiskMap() {
     // Seçili il vurgusu (Koyu Gri/Siyah)
     // Yüksek risk ile seçim karışıklığını önlemek için
     if (isSelected) return "fill-slate-800 dark:fill-slate-100";
+    if (!hasCityData(id)) return isHovered ? "fill-slate-400 dark:fill-slate-500" : "fill-slate-300 dark:fill-slate-700";
 
-    let baseColor = "fill-slate-300 dark:fill-slate-700"; // Düşük risk
+    let baseColor = "fill-[#8faebc] dark:fill-[#668795]"; // Düşük risk
     if (risk === "medium") baseColor = "fill-orange-300 dark:fill-orange-600";
     if (risk === "high") baseColor = "fill-red-500 dark:fill-red-800";
 
     if (isHovered) {
       if (risk === "high") return "fill-red-400 dark:fill-red-700";
       if (risk === "medium") return "fill-orange-200 dark:fill-orange-500";
-      return "fill-slate-400 dark:fill-slate-600";
+      return "fill-[#789aa9] dark:fill-[#789aa9]";
     }
 
     return baseColor;
@@ -134,8 +140,8 @@ export function DetailedRiskMap() {
                     }`}
                 >
                   <span>{city.name}</span>
-                  <div className={`w-2.5 h-2.5 rounded-full ring-2 ring-offset-1 ring-offset-card ${city.riskLevel === 'high' ? 'bg-red-500 ring-red-200' :
-                    city.riskLevel === 'medium' ? 'bg-orange-400 ring-orange-200' : 'bg-slate-300 ring-slate-200 dark:bg-slate-600 dark:ring-slate-800'
+                  <div className={`w-2.5 h-2.5 rounded-full ring-2 ring-offset-1 ring-offset-card ${!hasCityData(city.id) ? 'bg-slate-300 ring-slate-200 dark:bg-slate-600 dark:ring-slate-800' : city.riskLevel === 'high' ? 'bg-red-500 ring-red-200' :
+                    city.riskLevel === 'medium' ? 'bg-orange-400 ring-orange-200' : 'bg-[#8faebc] ring-[#c5d5dc] dark:bg-[#668795] dark:ring-[#456672]'
                     }`} />
                 </button>
               ))
@@ -150,7 +156,8 @@ export function DetailedRiskMap() {
         <div className="absolute top-4 right-4 flex flex-col gap-2 z-10 pointer-events-none">
           <Badge variant="outline" className="bg-card/80 backdrop-blur border-red-200 text-red-600 shadow-sm">Yüksek Risk</Badge>
           <Badge variant="outline" className="bg-card/80 backdrop-blur border-orange-200 text-orange-600 shadow-sm">Orta Risk</Badge>
-          <Badge variant="outline" className="bg-card/80 backdrop-blur border-slate-200 text-slate-600 shadow-sm">Düşük Risk</Badge>
+          <Badge variant="outline" className="bg-card/80 backdrop-blur border-[#b8cbd3] text-[#557886] shadow-sm">Düşük Risk</Badge>
+          <Badge variant="outline" className="bg-card/80 backdrop-blur border-slate-300 text-slate-600 shadow-sm">Veri Yok</Badge>
           <Badge variant="default" className="bg-slate-800 text-white shadow-sm mt-2 justify-center">Seçili İl</Badge>
         </div>
 

@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Turnstile } from "@marsidev/react-turnstile"; // YENİ EKLENDİ
-import { supabase } from "@/lib/supabase";
 import {
   MapPin,
   Camera,
@@ -66,7 +65,7 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
   };
 
   // Gönderme İşlemi
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Ekstra Güvenlik: Token yoksa işlemi durdur
     if (turnstileStatus !== "success" || !turnstileToken) {
       alert("Lütfen güvenliği doğrulayın.");
@@ -74,47 +73,18 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
     }
 
     try {
-      let photoUrl = null;
-
-      // 1. Fotoğraf Yükleme (Eğer varsa)
       const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
       const file = fileInput?.files?.[0];
+      const payload = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        if (key !== "photo" && typeof value === "string") payload.set(key, value);
+      });
+      payload.set("token", turnstileToken);
+      if (file) payload.set("photo", file);
 
-      if (file) {
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-        const filePath = `${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from('reports')
-          .upload(filePath, file);
-
-        if (uploadError) {
-          console.error('Upload Error:', uploadError);
-          alert("Fotoğraf yüklenirken bir hata oluştu.");
-          return;
-        }
-
-        const { data: { publicUrl } } = supabase.storage
-          .from('reports')
-          .getPublicUrl(filePath);
-
-        photoUrl = publicUrl;
-      }
-
-      // 2. API'ye Veri Gönderme
-      const payload = {
-        ...values,
-        photoUrl,
-        token: turnstileToken
-      };
-
-      const response = await fetch('/api/create-report', {
+      const response = await fetch('/api/reports', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
+        body: payload,
       });
 
       if (!response.ok) {

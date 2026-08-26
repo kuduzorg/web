@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PageHero } from "@/components/site-page";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -33,10 +33,10 @@ export default function RabiesInfo() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-background">
-      <Navbar />
+    <main className="min-h-screen bg-[#f7f9fc] text-slate-950">
+      <PageHero eyebrow="Tıbbi bilgi rehberi" title="Kuduz hakkında" accent="bilmeniz gerekenler." description="Bulaş yollarından klinik belirtilere kadar temel bilgileri sade, kaynaklandırılmış ve kolay taranabilir bir yapıda inceleyin." />
 
-      <div className="container mx-auto px-4 py-12">
+      <div className="mx-auto max-w-[1220px] px-5 py-12 lg:px-8 lg:py-16">
         <div className="flex flex-col lg:flex-row gap-12">
 
           {/* Sol Panel: İçindekiler Menüsü */}
@@ -51,9 +51,9 @@ export default function RabiesInfo() {
                 <ScrollLink id="tedavi" active={activeSection}>Tanı ve Tedavi</ScrollLink>
               </nav>
 
-              <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800">
-                <Info className="w-5 h-5 text-blue-600 mb-2" />
-                <p className="text-xs text-blue-700 font-medium">
+              <div className="mt-8 p-4 bg-white rounded-xl border border-slate-200">
+                <Info className="w-5 h-5 text-red-600 mb-2" />
+                <p className="text-xs leading-5 text-slate-600 font-medium">
                   Bu sayfadaki bilgiler DSÖ (WHO) ve T.C. Sağlık Bakanlığı verileri ışığında derlenmiştir.
                 </p>
               </div>
@@ -62,17 +62,6 @@ export default function RabiesInfo() {
 
           {/* Sağ Panel: Ana İçerik */}
           <article className="flex-1 max-w-4xl prose prose-slate dark:prose-invert lg:prose-lg">
-
-            {/* Başlık */}
-            <div className="mb-10">
-              <Badge className="mb-4 bg-red-100 text-red-700 hover:bg-red-200 border-none">Tıbbi Rehber</Badge>
-              <h1 className="text-4xl font-extrabold text-foreground tracking-tight mb-4">
-                Kuduz Hakkında Her Şey
-              </h1>
-              <p className="text-xl text-muted-foreground leading-relaxed">
-                Tarihin en eski ve en ölümcül hastalıklarından biri olan Kuduz (Rabies) hakkında bilmeniz gereken biyolojik, klinik ve yaşamsal gerçekler.
-              </p>
-            </div>
 
             {/* BÖLÜM 1: Nedir? */}
             <section id="nedir" className="scroll-mt-24 mb-16">
@@ -126,7 +115,7 @@ export default function RabiesInfo() {
                   </div>
                 </li>
                 <li className="flex gap-3 p-4 rounded-lg border border-border bg-card">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600 font-bold shrink-0">4</span>
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-600 font-bold shrink-0">4</span>
                   <div>
                     <strong className="text-foreground">Nadir Yollar</strong>
                     <p className="text-sm text-muted-foreground">Organ nakli (kornea) veya mağaralarda yoğun yarasa dışkısı solunması.</p>

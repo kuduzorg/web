@@ -1,66 +1,32 @@
-import { FileText, Download, Printer, School } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowUpRight, BookOpen, MapPinned, Route, School, Stethoscope } from "lucide-react";
+import Link from "next/link";
 
 const resources = [
-  {
-    title: "Apartman/Site Bilgilendirme Posteri",
-    desc: "Site girişlerine asmak için evcil hayvan aşılama uyarısı ve yasal sorumluluklar.",
-    icon: <Printer className="w-10 h-10 text-blue-500" />,
-    size: "A4 - PDF",
-  },
-  {
-    title: "Çocuklar İçin: Köpeklere Nasıl Yaklaşılır?",
-    desc: "İlkokul çağındaki çocuklar için resimli anlatım ve güvenlik kuralları.",
-    icon: <School className="w-10 h-10 text-orange-500" />,
-    size: "A3 - Renkli PDF",
-  },
-  {
-    title: "Isırılma Durumunda İlk Yardım Kartı",
-    desc: "Cüzdanda taşınabilir, acil durumda yapılması gerekenleri özetleyen kart.",
-    icon: <FileText className="w-10 h-10 text-red-500" />,
-    size: "Kartvizit Boy",
-  },
+  { icon: BookOpen, eyebrow: "Temel bilgiler", title: "Kuduz hakkında doğru bilinenler", desc: "Bulaş yolları, belirtiler, aşılama ve korunma hakkında kısa ve anlaşılır bilgiler.", href: "/bilgi", tone: "bg-red-50 text-red-600" },
+  { icon: Stethoscope, eyebrow: "Acil rehber", title: "Temas sonrası ne yapmalıyım?", desc: "İlk dakikalardan sağlık kuruluşuna başvuruya kadar uygulanması gereken adımlar.", href: "/rehber", tone: "bg-red-50 text-red-600" },
+  { icon: Route, eyebrow: "Seyahat", title: "Yola çıkmadan önce hazırlanın", desc: "Riskli bölgeler, aşı planlaması ve seyahat sırasında alınabilecek önlemler.", href: "/seyahat", tone: "bg-slate-100 text-slate-600" },
+  { icon: MapPinned, eyebrow: "Yakınımda", title: "Acil noktaları görüntüle", desc: "Sağlık kuruluşları ve veteriner hizmetlerine hızlıca ulaşmak için konum rehberi.", href: "/acil-noktalar", tone: "bg-red-50/70 text-red-500" },
 ];
 
 export function ResourcesSection() {
   return (
-    <section className="py-16 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
-          <div>
-            <h2 className="text-3xl font-bold text-foreground">Bilinçlendirme Materyalleri</h2>
-            <p className="text-muted-foreground mt-2 max-w-2xl">
-              Toplum sağlığına katkıda bulunmak ister misiniz? Aşağıdaki materyalleri indirip okulunuza, iş yerinize veya apartmanınıza asabilirsiniz.
-            </p>
-          </div>
+    <section className="bg-[#f6f8fb] py-20">
+      <div className="mx-auto max-w-[1320px] px-5 lg:px-8">
+        <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div className="max-w-2xl"><span className="text-xs font-bold uppercase tracking-[.16em] text-red-600">Bilgi merkezi</span><h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950">İhtiyacınız olan bilgiye hızlıca ulaşın</h2><p className="mt-3 leading-7 text-slate-600">Uzun metinler arasında kaybolmadan, bulunduğunuz duruma uygun rehberi seçin.</p></div>
+          <Link href="/kaynakca" className="inline-flex items-center gap-2 text-sm font-bold text-red-600 hover:text-red-700">Tüm bilimsel kaynaklar <ArrowUpRight className="h-4 w-4" /></Link>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {resources.map((res, i) => (
-            <Card key={i} className="group hover:border-primary/50 transition-colors">
-              <CardHeader className="space-y-1">
-                <div className="mb-4 p-3 w-fit rounded-lg bg-muted group-hover:bg-muted/80 transition-colors">
-                  {res.icon}
-                </div>
-                <CardTitle className="text-xl">{res.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex-1">
-                <p className="text-muted-foreground text-sm">
-                  {res.desc}
-                </p>
-              </CardContent>
-              <CardFooter className="flex justify-between items-center">
-                <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded">
-                  {res.size}
-                </span>
-                <Button variant="outline" size="sm" disabled className="gap-2">
-                  <Download className="w-4 h-4" /> Hazırlanıyor
-                </Button>
-              </CardFooter>
-            </Card>
+        <div className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+          {resources.map(({ icon: Icon, eyebrow, title, desc, href, tone }) => (
+            <Link key={title} href={href} className="group grid gap-5 border-b border-slate-200 p-6 transition-colors last:border-0 hover:bg-slate-50 md:grid-cols-[56px_1fr_1.2fr_28px] md:items-center md:px-8">
+              <span className={`grid h-12 w-12 place-items-center rounded-xl ${tone}`}><Icon className="h-5 w-5" /></span>
+              <div><small className="font-bold uppercase tracking-wider text-slate-400">{eyebrow}</small><h3 className="mt-1 font-bold text-slate-950">{title}</h3></div>
+              <p className="text-sm leading-6 text-slate-500">{desc}</p>
+              <ArrowUpRight className="hidden h-5 w-5 text-slate-300 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-red-600 md:block" />
+            </Link>
           ))}
         </div>
+        <div className="mt-8 flex items-center gap-4 rounded-2xl border border-dashed border-slate-300 bg-white/60 px-6 py-5"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-slate-100 text-slate-600"><School className="h-5 w-5" /></span><p className="text-sm leading-6 text-slate-600"><strong className="text-slate-900">Okul ve kurumlar için materyaller hazırlanıyor.</strong> Yazdırılabilir poster ve ilk yardım kartları doğrulama tamamlandığında bu alanda yayımlanacak.</p></div>
       </div>
     </section>
   );

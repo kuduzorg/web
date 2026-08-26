@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "leaflet/dist/leaflet.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -89,11 +90,11 @@
   --ring: oklch(0.577 0.245 27.325); /* Ring rengi de kırmızı */
 
   /* Grafikler */
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --chart-1: oklch(0.577 0.245 27.325);
+  --chart-2: oklch(0.68 0.17 25);
+  --chart-3: oklch(0.45 0.08 258);
+  --chart-4: oklch(0.62 0.05 258);
+  --chart-5: oklch(0.82 0.025 258);
 
   /* Sidebar */
   --sidebar: oklch(0.984 0.003 247.858);
@@ -139,11 +140,11 @@
   --ring: oklch(0.446 0.18 27.325); /* Daha koyu kırmızı ring */
 
   /* Grafikler (Koyu mod için uyumlu) */
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+  --chart-1: oklch(0.64 0.22 27.325);
+  --chart-2: oklch(0.72 0.15 25);
+  --chart-3: oklch(0.72 0.035 258);
+  --chart-4: oklch(0.58 0.035 258);
+  --chart-5: oklch(0.82 0.02 258);
 
   /* Sidebar */
   --sidebar: oklch(0.129 0.042 264.695);

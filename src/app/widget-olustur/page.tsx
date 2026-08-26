@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PageHero } from "@/components/site-page";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -31,17 +31,9 @@ export default function WidgetGeneratorPage() {
     };
 
     return (
-        <main className="min-h-screen bg-background flex flex-col">
-            <Navbar />
-
-            <div className="container mx-auto px-4 py-12 flex-1">
-                <div className="mb-10 text-center">
-                    <Badge className="mb-4 bg-purple-100 text-purple-700 hover:bg-purple-200 border-none">Developers & Webmasters</Badge>
-                    <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">Sitene Ekle</h1>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
-                        Kuduz.org'un hayati verilerini kendi web sitenizde, blogunuzda veya belediye portalınızda ücretsiz olarak yayınlayın.
-                    </p>
-                </div>
+        <main className="min-h-screen bg-[#f7f9fc] text-slate-950 flex flex-col">
+            <PageHero eyebrow="Geliştirici araçları" title="Kuduz.org verisini" accent="sitenize ekleyin." description="Risk ve acil durum bilgilerini web sitenizde, blogunuzda veya kurum portalınızda ücretsiz yayımlayın." />
+            <div className="mx-auto w-full max-w-[1320px] px-5 py-12 lg:px-8 lg:py-16 flex-1">
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
@@ -120,9 +112,9 @@ export default function WidgetGeneratorPage() {
                                                 <span className="font-medium">Ambulans / Polis</span>
                                                 <span className="font-bold text-red-500 text-xl">112</span>
                                             </div>
-                                            <div className={`p-3 rounded-lg flex justify-between items-center ${theme === 'dark' ? 'bg-blue-900/20' : 'bg-blue-50'}`}>
+                                            <div className={`p-3 rounded-lg flex justify-between items-center ${theme === 'dark' ? 'bg-red-950/30' : 'bg-red-50'}`}>
                                                 <span className="font-medium">Belediye</span>
-                                                <span className="font-bold text-blue-500 text-xl">153</span>
+                                                <span className="font-bold text-red-500 text-xl">153</span>
                                             </div>
                                         </div>
                                     </div>

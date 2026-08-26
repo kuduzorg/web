@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PageHero } from "@/components/site-page";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,7 +18,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { CheckCircle2, Send, AlertCircle, Upload, Loader2, X } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Turnstile } from "@marsidev/react-turnstile";
-import { supabase } from "@/lib/supabase";
 
 export default function ContributePage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,73 +53,28 @@ export default function ContributePage() {
 
         try {
             const formData = new FormData(e.currentTarget);
-            let mediaUrl = null;
-
-            // 1. Dosya Yükleme İşlemi
-            if (selectedFile) {
-                const fileExt = selectedFile.name.split('.').pop();
-                const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-                const filePath = `${fileName}`;
-
-                const { error: uploadError } = await supabase.storage
-                    .from('content-requests')
-                    .upload(filePath, selectedFile);
-
-                if (uploadError) {
-                    throw new Error("Dosya yüklenirken hata oluştu: " + uploadError.message);
-                }
-
-                const { data: { publicUrl } } = supabase.storage
-                    .from('content-requests')
-                    .getPublicUrl(filePath);
-
-                mediaUrl = publicUrl;
-            }
-
-            // 2. Veritabanı Kayıt İşlemi
-            const { error: insertError } = await supabase
-                .from('contribution_requests')
-                .insert({
-                    type: formData.get('type'),
-                    subject: formData.get('subject'),
-                    content: formData.get('content'),
-                    source_url: formData.get('source'),
-                    submitter_name: formData.get('name'),
-                    submitter_email: formData.get('email'),
-                    media_url: mediaUrl,
-                    status: 'pending'
-                });
-
-            if (insertError) {
-                throw new Error("Kayıt oluşturulurken hata: " + insertError.message);
+            formData.set("token", turnstileToken);
+            if (selectedFile) formData.set("media", selectedFile);
+            const response = await fetch("/api/contributions", { method: "POST", body: formData });
+            if (!response.ok) {
+                const body = await response.json();
+                throw new Error(body.error || "Kayıt oluşturulamadı.");
             }
 
             setIsSuccess(true);
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Hata:", error);
-            alert("Bir hata oluştu: " + error.message);
+            alert("Bir hata oluştu: " + (error instanceof Error ? error.message : "Bilinmeyen hata"));
         } finally {
             setIsSubmitting(false);
         }
     };
 
     return (
-        <main className="min-h-screen bg-background flex flex-col">
-            <Navbar />
+        <main className="min-h-screen bg-[#f7f9fc] text-slate-950 flex flex-col">
+            <PageHero eyebrow="Topluluk katkısı" title="Bilgiyi birlikte" accent="daha güvenilir kılalım." description="Bildiğiniz, teyit ettiğiniz veya düzeltilmesi gerektiğini düşündüğünüz bilgileri incelememiz için bizimle paylaşın." />
 
-            {/* Hero Bölümü */}
-            <section className="bg-primary/5 border-b border-primary/10 py-16">
-                <div className="container mx-auto px-4 text-center">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-foreground mb-4">
-                        Bilgiye Katkıda Bulunun
-                    </h1>
-                    <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                        Kuduz.org topluluk destekli bir bilgi platformudur. Bildiğiniz, teyit ettiğiniz veya düzeltilmesi gerektiğini düşündüğünüz bilgileri bizimle paylaşın.
-                    </p>
-                </div>
-            </section>
-
-            <div className="container mx-auto px-4 py-12 flex-1 max-w-3xl">
+            <div className="mx-auto w-full max-w-3xl px-5 py-12 lg:py-16 flex-1">
                 {isSuccess ? (
                     <Card className="border-green-200 bg-green-50 dark:bg-green-900/20">
                         <CardContent className="pt-6 text-center py-16">
@@ -150,10 +104,10 @@ export default function ContributePage() {
                     </Card>
                 ) : (
                     <div className="grid gap-8">
-                        <Alert className="bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800">
-                            <AlertCircle className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                            <AlertTitle className="text-blue-800 dark:text-blue-300">Nasıl Çalışır?</AlertTitle>
-                            <AlertDescription className="text-blue-700 dark:text-blue-400">
+                        <Alert className="bg-white border-slate-200">
+                            <AlertCircle className="h-4 w-4 text-red-600" />
+                            <AlertTitle className="text-slate-900">Nasıl Çalışır?</AlertTitle>
+                            <AlertDescription className="text-slate-600">
                                 Gönderdiğiniz veriler (yeni haber, istatistik düzeltmesi, seyahat uyarısı vb.) ekibimizce doğrulanır ve kaynak gösterilerek siteye eklenir.
                             </AlertDescription>
                         </Alert>

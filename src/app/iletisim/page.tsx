@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PageHero } from "@/components/site-page";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,7 +15,6 @@ import {
     Loader2,
     CheckCircle2,
     Github,
-    Twitter,
     Instagram,
     Phone,
     Megaphone,
@@ -45,6 +44,7 @@ type ContactFormValues = z.infer<typeof contactSchema>;
 
 export default function ContactPage() {
     const [isSuccess, setIsSuccess] = useState(false);
+    const [submitError, setSubmitError] = useState("");
 
     const form = useForm<ContactFormValues>({
         resolver: zodResolver(contactSchema),
@@ -57,29 +57,26 @@ export default function ContactPage() {
     });
 
     const onSubmit = async (data: ContactFormValues) => {
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        console.log("Form Data:", data);
+        setSubmitError("");
+        const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...data, website: "" }),
+        });
+        const body = await response.json();
+        if (!response.ok) {
+            setSubmitError(body.error || "Mesaj gönderilemedi.");
+            return;
+        }
         setIsSuccess(true);
         form.reset();
     };
 
     return (
-        <main className="min-h-screen bg-background flex flex-col">
-            <Navbar />
+        <main className="min-h-screen bg-[#f7f9fc] text-slate-950 flex flex-col">
+            <PageHero eyebrow="İletişim" title="Bizimle" accent="iletişime geçin." description="Gönüllü olmak, proje hakkında öneri sunmak veya teknik bir sorunu bildirmek için doğru kanaldan bize ulaşın." />
 
-            {/* Header */}
-            <section className="bg-card border-b border-border py-16">
-                <div className="container mx-auto px-4 text-center">
-                    <h1 className="text-4xl font-extrabold text-foreground mb-4">
-                        Bizimle İletişime Geçin
-                    </h1>
-                    <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                        Gönüllü olmak, proje hakkında öneri sunmak veya teknik bir sorunu bildirmek için bize ulaşabilirsiniz.
-                    </p>
-                </div>
-            </section>
-
-            <div className="container mx-auto px-4 py-12 flex-1">
+            <div className="mx-auto w-full max-w-[1320px] px-5 py-12 lg:px-8 lg:py-16 flex-1">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
 
                     {/* Sol Panel: Bilgi Blokları */}
@@ -100,22 +97,16 @@ export default function ContactPage() {
 
                                 <div className="grid grid-cols-1 gap-3">
                                     <ReportModal>
-                                        <Button variant="outline" className="w-full justify-start h-12 border-blue-200 bg-blue-50 hover:bg-blue-100 hover:border-blue-300 text-blue-700 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-400">
+                                        <Button variant="outline" className="w-full justify-start h-12 border-slate-200 bg-white hover:bg-red-50 hover:border-red-200 text-slate-700 hover:text-red-600">
                                             <MapPin className="w-4 h-4 mr-3" />
                                             Platform Üzerinden Bildir
-                                            <span className="ml-auto text-[10px] bg-blue-200 dark:bg-blue-800 px-2 py-0.5 rounded-full text-blue-800 dark:text-blue-200">Önerilen</span>
                                         </Button>
                                     </ReportModal>
 
-                                    <div className="grid grid-cols-2 gap-3">
+                                    <div className="grid grid-cols-1 gap-3">
                                         <Button asChild className="w-full justify-start h-12 bg-red-600 hover:bg-red-700 text-white shadow-md shadow-red-200 dark:shadow-none">
                                             <a href="tel:112">
                                                 <Phone className="w-4 h-4 mr-2" /> 112 Acil
-                                            </a>
-                                        </Button>
-                                        <Button variant="secondary" asChild className="w-full justify-start h-12 border border-border">
-                                            <a href="tel:153">
-                                                <Phone className="w-4 h-4 mr-2" /> 153 Beyaz Masa
                                             </a>
                                         </Button>
                                     </div>
@@ -128,28 +119,25 @@ export default function ContactPage() {
                             <CardContent className="p-6 space-y-6">
                                 {/* E-Posta */}
                                 <div className="flex items-start gap-4">
-                                    <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-blue-600 dark:text-blue-400">
+                                    <div className="p-3 bg-slate-100 rounded-lg text-slate-600">
                                         <Mail className="w-6 h-6" />
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-foreground">E-Posta</h4>
                                         <p className="text-muted-foreground text-sm mb-1">Genel sorular ve işbirlikleri için:</p>
-                                        <span className="text-muted-foreground line-through text-sm block">iletisim@kuduz.org</span>
-                                        <p className="text-red-500 text-xs font-bold mt-1">
-                                            (Geçici olarak kullanım dışıdır, lütfen yandaki formu kullanınız.)
-                                        </p>
+                                        <a href="mailto:iletisim@kuduz.org" className="text-sm font-bold text-red-600 hover:text-red-700">iletisim@kuduz.org</a>
                                     </div>
                                 </div>
 
                                 {/* Konum Bilgisi */}
                                 <div className="flex items-start gap-4">
-                                    <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
+                                    <div className="p-3 bg-red-50 rounded-lg text-red-600">
                                         <MapPin className="w-6 h-6" />
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-foreground">Konum</h4>
                                         <p className="text-muted-foreground text-sm">
-                                            Ekibimiz Türkiye'nin farklı illerinden gönüllülerle uzaktan (remote) çalışmaktadır.
+                                            Ekibimiz Türkiye&apos;nin farklı illerinden gönüllülerle uzaktan çalışmaktadır.
                                         </p>
                                     </div>
                                 </div>
@@ -158,8 +146,8 @@ export default function ContactPage() {
                                 <div className="pt-4 border-t border-border">
                                     <h4 className="font-bold text-foreground mb-4 text-sm uppercase tracking-wider">Sosyal Medya</h4>
                                     <div className="flex gap-4">
-                                        <Button variant="outline" size="icon" className="hover:bg-blue-50 hover:text-blue-500 transition-colors">
-                                            <Twitter className="w-5 h-5" />
+                                        <Button variant="outline" size="icon" className="hover:bg-red-50 hover:text-red-600 transition-colors">
+                                            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" /></svg>
                                         </Button>
                                         <Button variant="outline" size="icon" className="hover:bg-pink-50 hover:text-pink-600 transition-colors">
                                             <Instagram className="w-5 h-5" />
@@ -173,14 +161,14 @@ export default function ContactPage() {
                         </Card>
 
                         {/* 3. SSS Yönlendirmesi */}
-                        <div className="p-5 rounded-xl bg-blue-50 border border-blue-100 dark:bg-blue-900/10 dark:border-blue-800 flex items-start gap-4">
-                            <HelpCircle className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1" />
+                        <div className="p-5 rounded-xl bg-white border border-slate-200 flex items-start gap-4">
+                            <HelpCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
                             <div>
-                                <h4 className="font-bold text-blue-800 dark:text-blue-300 text-sm">Hızlı Cevap mı Arıyorsunuz?</h4>
-                                <p className="text-blue-700 dark:text-blue-400 text-xs mt-1 mb-3 leading-relaxed">
+                                <h4 className="font-bold text-slate-900 text-sm">Hızlı Cevap mı Arıyorsunuz?</h4>
+                                <p className="text-slate-600 text-xs mt-1 mb-3 leading-relaxed">
                                     Sorunuz aşı takvimi, bulaşma yolları veya yasal süreçler ile ilgiliyse, cevabı muhtemelen SSS sayfamızdadır.
                                 </p>
-                                <Button variant="link" className="p-0 h-auto text-blue-600 dark:text-blue-300 font-bold text-xs group" asChild>
+                                <Button variant="link" className="p-0 h-auto text-red-600 font-bold text-xs group" asChild>
                                     <a href="/sss" className="flex items-center">Sıkça Sorulan Sorulara Git <span className="group-hover:translate-x-1 transition-transform ml-1">&rarr;</span></a>
                                 </Button>
                             </div>
@@ -242,6 +230,7 @@ export default function ContactPage() {
                                         </div>
 
                                         <div className="pt-2">
+                                            {submitError && <p className="mb-3 text-sm font-medium text-red-600">{submitError}</p>}
                                             <Button type="submit" className="w-full md:w-auto px-8 py-6 font-bold text-lg bg-primary text-primary-foreground hover:bg-primary/90" disabled={form.formState.isSubmitting}>
                                                 {form.formState.isSubmitting ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Gönderiliyor</> : <><Send className="w-5 h-5 mr-2" /> Mesajı Gönder</>}
                                             </Button>

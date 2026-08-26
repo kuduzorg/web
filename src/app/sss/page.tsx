@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Head from "next/head";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PageHero } from "@/components/site-page";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -44,29 +44,15 @@ export default function FAQPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background flex flex-col">
+    <main className="min-h-screen bg-[#f7f9fc] text-slate-950 flex flex-col">
       {/* SEO Script */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <Navbar />
 
-      {/* Header Alanı */}
-      <div className="bg-card border-b border-border">
-        <div className="container mx-auto px-4 py-16 text-center">
-          <Badge variant="secondary" className="mb-4 px-4 py-1 text-sm">
-            Bilgi Bankası
-          </Badge>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-foreground mb-6">
-            Aklınızdaki Tüm Sorular
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            Kuduz, aşı takvimi ve yasal süreçler hakkında en çok merak edilen 50+ sorunun bilimsel cevapları.
-          </p>
-
-          {/* Arama Çubuğu */}
+      <PageHero eyebrow="Bilgi bankası" title="Sorularınıza" accent="güvenilir yanıtlar." description="Kuduz, aşı takvimi ve yasal süreçler hakkında en çok merak edilen soruların kaynaklandırılmış cevaplarını arayın.">
           <div className="max-w-xl mx-auto relative">
             <Search className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground" />
             <Input
@@ -77,11 +63,10 @@ export default function FAQPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-        </div>
-      </div>
+      </PageHero>
 
       {/* İçerik Alanı */}
-      <div className="container mx-auto px-4 py-12 flex-1">
+      <div className="mx-auto w-full max-w-[1100px] px-5 py-12 lg:px-8 lg:py-16 flex-1">
 
         {/* Kategori Filtreleri */}
         <div className="flex flex-wrap justify-center gap-2 mb-12">
@@ -116,7 +101,7 @@ export default function FAQPage() {
                         href={faq.sourceUrl}
                         target="_blank"
                         rel="nofollow noreferrer"
-                        className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1 font-medium transition-colors"
+                        className="text-xs text-red-600 hover:text-red-700 flex items-center gap-1 font-medium transition-colors"
                       >
                         {faq.source} <ExternalLink className="w-3 h-3" />
                       </a>
@@ -129,7 +114,7 @@ export default function FAQPage() {
             <div className="text-center py-12 text-muted-foreground">
               <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-20" />
               <p>Aradığınız kriterlere uygun sonuç bulunamadı.</p>
-              <Button variant="link" onClick={() => { setSearchQuery(""); setActiveCategory("all") }} className="mt-2 text-blue-600">
+              <Button variant="link" onClick={() => { setSearchQuery(""); setActiveCategory("all") }} className="mt-2 text-red-600">
                 Filtreleri Temizle
               </Button>
             </div>

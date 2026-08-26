@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 interface DataDisclaimerProps {
     compact?: boolean;
@@ -23,14 +24,36 @@ export function DataDisclaimer({ compact = false }: DataDisclaimerProps) {
     const [open, setOpen] = useState(false);
     const [successOpen, setSuccessOpen] = useState(false);
     const [reportText, setReportText] = useState("");
+    const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Mock submission
-        console.log("Report submitted:", reportText);
-        setOpen(false);
-        setReportText("");
-        setSuccessOpen(true);
+        if (!turnstileToken) return setError("Lütfen güvenlik doğrulamasını tamamlayın.");
+        setIsSubmitting(true);
+        setError("");
+        const formData = new FormData();
+        formData.set("type", "correction");
+        formData.set("subject", "Risk haritası veri bildirimi");
+        formData.set("content", reportText);
+        formData.set("source", "");
+        formData.set("name", "");
+        formData.set("email", "");
+        formData.set("token", turnstileToken);
+        try {
+            const response = await fetch("/api/contributions", { method: "POST", body: formData });
+            const body = await response.json();
+            if (!response.ok) throw new Error(body.error || "Bildirim gönderilemedi.");
+            setOpen(false);
+            setReportText("");
+            setTurnstileToken(null);
+            setSuccessOpen(true);
+        } catch (submitError) {
+            setError(submitError instanceof Error ? submitError.message : "Bildirim gönderilemedi.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     if (compact) {
@@ -47,6 +70,9 @@ export function DataDisclaimer({ compact = false }: DataDisclaimerProps) {
                         reportText={reportText}
                         setReportText={setReportText}
                         onSubmit={handleSubmit}
+                        onTurnstileSuccess={setTurnstileToken}
+                        isSubmitting={isSubmitting}
+                        error={error}
                         variant="outline"
                     />
                 </div>
@@ -61,7 +87,7 @@ export function DataDisclaimer({ compact = false }: DataDisclaimerProps) {
                 <div className="flex gap-3">
                     <Info className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
                     <div>
-                        <strong>Yasal Uyarı:</strong> Bu harita yalnızca bilgilendirme amaçlıdır. "Yüksek Risk" ibaresi, ilgili ilde son dönemde karantina tedbiri uygulandığını gösterir, tüm ilin tehlikede olduğu anlamına gelmez. Veriler anlık olarak değişebilir.
+                        <strong>Yasal Uyarı:</strong> Bu harita yalnızca bilgilendirme amaçlıdır. &quot;Yüksek Risk&quot; ibaresi, ilgili ilde son dönemde karantina tedbiri uygulandığını gösterir, tüm ilin tehlikede olduğu anlamına gelmez. Veriler anlık olarak değişebilir.
                     </div>
                 </div>
                 <ReportDialog
@@ -70,6 +96,9 @@ export function DataDisclaimer({ compact = false }: DataDisclaimerProps) {
                     reportText={reportText}
                     setReportText={setReportText}
                     onSubmit={handleSubmit}
+                    onTurnstileSuccess={setTurnstileToken}
+                    isSubmitting={isSubmitting}
+                    error={error}
                     variant="outline"
                 />
             </div>
@@ -84,10 +113,13 @@ interface ReportDialogProps {
     reportText: string;
     setReportText: (text: string) => void;
     onSubmit: (e: React.FormEvent) => void;
+    onTurnstileSuccess: (token: string) => void;
+    isSubmitting: boolean;
+    error: string;
     variant?: "link" | "outline";
 }
 
-function ReportDialog({ open, onOpenChange, reportText, setReportText, onSubmit, variant = "link" }: ReportDialogProps) {
+function ReportDialog({ open, onOpenChange, reportText, setReportText, onSubmit, onTurnstileSuccess, isSubmitting, error, variant = "link" }: ReportDialogProps) {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogTrigger asChild>
@@ -115,8 +147,15 @@ function ReportDialog({ open, onOpenChange, reportText, setReportText, onSubmit,
                             required
                         />
                     </div>
+                    <div className="flex justify-center">
+                        <Turnstile
+                            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
+                            onSuccess={onTurnstileSuccess}
+                        />
+                    </div>
+                    {error && <p className="text-sm text-red-600">{error}</p>}
                     <DialogFooter>
-                        <Button type="submit">Gönder</Button>
+                        <Button type="submit" disabled={isSubmitting}>{isSubmitting ? "Gönderiliyor..." : "Gönder"}</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

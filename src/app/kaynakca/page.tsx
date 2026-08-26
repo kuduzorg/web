@@ -1,7 +1,7 @@
 "use client";
 
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PageHero } from "@/components/site-page";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,7 @@ import { useState } from "react";
 const references = [
     {
         category: "Resmi Otoriteler",
-        icon: <Globe className="w-5 h-5 text-blue-500" />,
+        icon: <Globe className="w-5 h-5 text-red-500" />,
         items: [
             { title: "T.C. Sağlık Bakanlığı - Kuduz Profilaksi Rehberi", url: "https://hsgm.saglik.gov.tr/tr/zoonoz-hastaliklar/kuduz", date: "2023 Güncellemesi" },
             { title: "Dünya Sağlık Örgütü (WHO) - Rabies Fact Sheet", url: "https://www.who.int/news-room/fact-sheets/detail/rabies", date: "2024" },
@@ -31,7 +31,7 @@ const references = [
     },
     {
         category: "Akademik & Bilimsel",
-        icon: <Book className="w-5 h-5 text-purple-500" />,
+        icon: <Book className="w-5 h-5 text-slate-500" />,
         items: [
             { title: "Türkiye'de Kuduz Epidemiyolojisi (2010-2020)", url: "#", date: "Türk Veteriner Hekimleri Birliği Dergisi" },
             { title: "Pathogenesis of Rabies Virus - Nature Review", url: "#", date: "Nature Journal" },
@@ -57,22 +57,11 @@ export default function ReferencesPage() {
     })).filter(group => group.items.length > 0);
 
     return (
-        <main className="min-h-screen bg-background flex flex-col">
-            <Navbar />
-
-            {/* Header */}
-            <div className="bg-card border-b border-border py-16">
-                <div className="container mx-auto px-4 text-center">
-                    <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5">Şeffaflık ve Güven</Badge>
-                    <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">Kaynakça ve Referanslar</h1>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
-                        Kuduz.org üzerinde sunulan tüm bilgiler, aşağıdaki ulusal ve uluslararası yetkili kurumların verileri referans alınarak derlenmiştir.
-                    </p>
-                </div>
-            </div>
+        <main className="min-h-screen bg-[#f7f9fc] text-slate-950 flex flex-col">
+            <PageHero eyebrow="Şeffaflık ve güven" title="Kaynakça ve" accent="referanslar." description="Kuduz.org üzerinde sunulan bilgilerin dayandığı ulusal ve uluslararası yetkili kurum yayınlarını inceleyin." />
 
             {/* İçerik */}
-            <div className="container mx-auto px-4 py-12 flex-1 max-w-4xl">
+            <div className="mx-auto w-full max-w-5xl px-5 py-12 lg:px-8 lg:py-16 flex-1">
 
                 {/* Arama */}
                 <div className="relative mb-10">
@@ -130,7 +119,7 @@ export default function ReferencesPage() {
                 </div>
 
                 {/* Disclaimer */}
-                <div className="mt-12 p-6 bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 rounded-xl text-sm text-blue-800 dark:text-blue-300 leading-relaxed">
+                <div className="mt-12 p-6 bg-white border border-slate-200 rounded-xl text-sm text-slate-600 leading-relaxed">
                     <strong>Not:</strong> Bu sayfada yer alan harici bağlantılar, ilgili kurumların resmi web sitelerine aittir. Kuduz.org, harici sitelerin içeriğinden ve güncelliğinden sorumlu tutulamaz.
                 </div>
 

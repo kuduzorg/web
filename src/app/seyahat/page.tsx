@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PageHero } from "@/components/site-page";
 import {
     Plane,
     MapPin,
@@ -87,23 +87,8 @@ export default function TravelPage() {
     }, [selectedCountry]);
 
     return (
-        <main className="min-h-screen bg-background flex flex-col">
-            <Navbar />
-
-            {/* Hero Bölümü */}
-            <section className="bg-primary/5 border-b border-primary/10 py-16">
-                <div className="container mx-auto px-4 text-center">
-                    <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/10">
-                        <Plane className="w-3 h-3 mr-1" /> Seyahat Sağlığı
-                    </Badge>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-foreground mb-4">
-                        Rotanızda Kuduz Riski Var mı?
-                    </h1>
-                    <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">
-                        Gideceğiniz ülkeyi seçin, risk durumunu ve acil durum numaralarını anında öğrenin.
-                    </p>
-
-                    {/* Arama Kutusu */}
+        <main className="min-h-screen bg-[#f7f9fc] text-slate-950 flex flex-col">
+            <PageHero eyebrow="Seyahat sağlığı" title="Rotanızdaki kuduz" accent="riskini öğrenin." description="Gideceğiniz ülkeyi seçin; risk durumunu, aşı önerilerini ve acil iletişim bilgilerini yolculuktan önce inceleyin.">
                     <div className="max-w-md mx-auto relative group">
                         <Search className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                         <Input
@@ -142,11 +127,10 @@ export default function TravelPage() {
                             </div>
                         )}
                     </div>
-                </div>
-            </section>
+            </PageHero>
 
             {/* Sonuç Alanı */}
-            <div className="container mx-auto px-4 py-12 flex-1">
+            <div className="mx-auto w-full max-w-[1320px] px-5 py-12 lg:px-8 lg:py-16 flex-1">
                 {selectedCountry ? (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch animate-in fade-in slide-in-from-bottom-4 duration-500">
 
@@ -184,7 +168,7 @@ export default function TravelPage() {
                                 {/* 1. Acil Numaralar */}
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="p-4 bg-muted/30 rounded-xl border border-border flex items-center gap-4">
-                                        <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-full text-blue-600 dark:text-blue-400">
+                                        <div className="p-3 bg-red-50 rounded-full text-red-600">
                                             <Phone className="w-6 h-6" />
                                         </div>
                                         <div>
@@ -218,11 +202,11 @@ export default function TravelPage() {
                                 </div>
 
                                 {/* 3. Tavsiye Kutusu */}
-                                <div className="bg-blue-50 dark:bg-blue-900/10 p-5 rounded-xl border border-blue-100 dark:border-blue-800">
-                                    <h4 className="text-blue-800 dark:text-blue-300 font-bold flex items-center gap-2 mb-2">
+                                <div className="bg-white p-5 rounded-xl border border-slate-200">
+                                    <h4 className="text-slate-900 font-bold flex items-center gap-2 mb-2">
                                         <Syringe className="w-4 h-4" /> Sağlık Tavsiyesi
                                     </h4>
-                                    <p className="text-blue-700 dark:text-blue-400 text-sm leading-relaxed">
+                                    <p className="text-slate-600 text-sm leading-relaxed">
                                         {selectedCountry.advice}
                                     </p>
                                 </div>

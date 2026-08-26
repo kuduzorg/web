@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
   AlertTriangle,
@@ -21,14 +20,10 @@ import {
   ShieldCheck,
   Mail,
   ChevronDown,
-  FlaskConical,
-  Sun,
-  Moon,
   Plane,
   Library,
   Edit
 } from "lucide-react";
-import { ModeToggle } from "@/components/mode-toggle";
 import {
   Sheet,
   SheetContent,
@@ -80,10 +75,15 @@ const corporateItems = [
 export function Navbar() {
   const [isCorporateOpen, setIsCorporateOpen] = useState(false);
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-colors duration-300">
+      <div className="border-b border-red-200/70 bg-red-50 text-red-900">
+        <div className="container mx-auto flex min-h-7 items-center justify-center gap-2 px-4 py-1 text-center text-[10px] font-semibold leading-4 sm:text-xs">
+          <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-red-600" aria-hidden="true" />
+          <p><span className="font-extrabold">Erken erişim:</span> Platform veri toplama ve doğrulama sürecindedir; görüntülenen değerler eksik veya güncel olmayabilir.</p>
+        </div>
+      </div>
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
 
         {/* LOGO ALANI */}
@@ -142,17 +142,8 @@ export function Navbar() {
         {/* SAĞ ALAN */}
         <div className="flex items-center gap-1 md:gap-3 shrink-0">
 
-          {/* LABS Butonu */}
-          <Button variant="ghost" size="sm" className="hidden sm:flex gap-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20" asChild>
-            <Link href="/akademik">
-              <FlaskConical className="w-4 h-4" />
-              <span className="hidden lg:inline font-bold">LABS</span>
-            </Link>
-          </Button>
-
           {/* Desktop Araçları */}
           <div className="hidden xl:flex items-center gap-2">
-            <ModeToggle />
             <EmergencyModal>
               <Button variant="destructive" className="font-bold shadow-md shadow-red-500/20 flex gap-2 px-4">
                 <AlertTriangle className="h-4 w-4" />
@@ -179,24 +170,7 @@ export function Navbar() {
                   </SheetTitle>
                 </div>
 
-                <div className="flex items-center gap-1 pr-8">
-                  <Button variant="ghost" size="icon" className="h-9 w-9 text-blue-600 hover:bg-blue-100/50 rounded-full" asChild>
-                    <Link href="/akademik"><FlaskConical className="w-5 h-5" /></Link>
-                  </Button>
-
-                  <div className="xl:hidden">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-9 w-9 rounded-full"
-                      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    >
-                      <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                      <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                      <span className="sr-only">Temayı Değiştir</span>
-                    </Button>
-                  </div>
-                </div>
+                <div className="pr-8" />
               </SheetHeader>
 
               <div className="flex-1 overflow-y-auto py-4 px-4 space-y-2">
@@ -224,7 +198,7 @@ export function Navbar() {
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" className="w-full justify-between p-3 h-auto font-normal hover:bg-accent group rounded-lg border border-transparent hover:border-border/50">
                       <div className="flex items-center gap-3">
-                        <div className="p-1.5 rounded-md bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        <div className="p-1.5 rounded-md bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                           <BookOpen className="w-5 h-5" />
                         </div>
                         <span className="font-medium text-sm text-foreground">Bilgi & Kaynaklar</span>
@@ -233,7 +207,7 @@ export function Navbar() {
                     </Button>
                   </CollapsibleTrigger>
 
-                  <CollapsibleContent className="pl-4 space-y-1 mt-1 border-l-2 border-blue-500/10 ml-5">
+                  <CollapsibleContent className="pl-4 space-y-1 mt-1 border-l-2 border-primary/10 ml-5">
                     {resourceItems.map(item => (
                       <SheetClose asChild key={item.href}>
                         <Link

@@ -1,71 +1,79 @@
-# Kuduz.org 🛡️
+# Kuduz.org Web
 
-**"Bilgiyle Koru, Bilinçle Yaşa."**
+Kuduz.org; kuduz hakkında doğrulanmış bilgi, temas sonrası yönlendirme, risk haritası, haberler ve güvenli vatandaş bildirimleri sunan açık kaynaklı bir Next.js uygulamasıdır. Platform erken erişimdedir; il bazlı veriler doğrulanana kadar ilgili alanlar **Veri Yok** olarak gösterilir.
 
-Kuduz.org; Türkiye'deki kuduz riskine karşı toplumu bilimsel verilerle bilgilendirmek, risk analizi sunmak ve güvenli bir veri tabanı oluşturmak amacıyla geliştirilmiş açık kaynaklı (open-source) bir sosyal sorumluluk platformudur.
+> Bu proje T.C. Sağlık Bakanlığı, T.C. Tarım ve Orman Bakanlığı veya başka bir resmî kurumun sitesi değildir. Sağlık hizmeti, tanı veya kişisel tedavi önerisi sunmaz. Şüpheli temasta vakit kaybetmeden bir sağlık kuruluşuna başvurun; acil durumda 112’yi arayın.
 
-<img width="14337" height="4737" alt="x-banner@4x" src="https://github.com/user-attachments/assets/5d9a9ad7-999b-42e7-bf62-323473dbee8e" />
+## Özellikler
 
-## 🚀 Özellikler
+- İl bazlı kuduz risk verisi ve yanlış veri bildirimi
+- Temas sonrası ilk yardım ve sağlık kuruluşuna başvuru rehberi
+- OpenStreetMap tabanlı, API anahtarı gerektirmeyen acil nokta haritası
+- Kaynak bağlantılı Türkiye ve dünya haberleri
+- Turnstile korumalı vatandaş bildirimi ve katkı formları
+- PostgreSQL üzerinde haber, harita verisi, bildirim ve iletişim kayıtları
+- Ayrı `admin` uygulamasıyla aynı veritabanının yönetimi
 
-* **İnteraktif Risk Haritası:** İl bazlı risk durumlarını gösteren detaylı harita.
-* **Acil Durum Sihirbazı:** Isırılma/Temas durumunda adım adım (Step-by-step) yönlendirme.
-* **Acil Noktalar:** Konuma dayalı en yakın nöbetçi veteriner ve hastane bulucu (Google Maps).
-* **Seyahat Sağlığı:** Gidilecek ülkeye göre kuduz risk analizi.
-* **Güvenli Bildirim Sistemi:** Vatandaşların riskli durumları anonim olarak bildirebildiği veri toplama modülü.
-* **Akademik (LABS):** Sağlık profesyonelleri için veri ve literatür merkezi. (Yakında eklenecek.)
+## Teknoloji
 
-## 🛠️ Teknolojiler
+- Next.js 16, React 19 ve TypeScript
+- Tailwind CSS ve shadcn/ui
+- PostgreSQL 17 ve Docker Compose
+- Leaflet / OpenStreetMap
+- Zod, React Hook Form ve Cloudflare Turnstile
 
-Bu proje modern web teknolojileri kullanılarak geliştirilmiştir:
+## Yerel kurulum
 
-* **Framework:** [Next.js 16.0.4](https://nextjs.org/) (App Router)
-* **Dil:** TypeScript
-* **Stil:** [Tailwind CSS](https://tailwindcss.com/)
-* **UI Kütüphanesi:** [shadcn/ui](https://ui.shadcn.com/)
-* **Harita:** Google Maps API
-* **Animasyon:** Framer Motion
-* **Form & Validasyon:** React Hook Form + Zod
+Gereksinimler: Node.js 20+, npm ve Docker Compose.
 
-## 📦 Kurulum (Local Development)
+```bash
+npm install
+cp .env.example .env
+```
 
-Projeyi kendi bilgisayarınızda çalıştırmak için:
+`.env` içindeki tüm alanları kendiniz doldurun. `DATABASE_URL`, `POSTGRES_PASSWORD` ve `TURNSTILE_SECRET_KEY` gizlidir; `NEXT_PUBLIC_` önekli değişkenlerin tarayıcıya açık olduğunu unutmayın. Üretimde uzun ve benzersiz bir PostgreSQL parolası kullanın.
 
-1.  **Repoyu klonlayın:**
-    ```bash
-    git clone https://github.com/kuduzorg/web.git
-    cd kuduz-org
-    ```
+```bash
+docker compose up -d postgres
+npm run dev
+```
 
-2.  **Paketleri yükleyin:**
-    ```bash
-    npm install
-    # veya
-    yarn install
-    ```
+Uygulama varsayılan olarak `http://localhost:3000` adresinde açılır. Şema ve başlangıçtaki 81 il kaydı ilk veritabanı bağlantısında oluşturulur.
 
-3.  **Çevre Değişkenlerini (.env) Ayarlayın:**
-    `.env.example` dosyasını `.env.local` olarak kopyalayın ve gerekli anahtarları girin.
+## Ortam değişkenleri
 
-4.  **Projeyi Başlatın:**
-    ```bash
-    npm run dev
-    ```
-    Tarayıcınızda `http://localhost:3000` adresine gidin.
+| Değişken | Gerekli | Açıklama |
+| --- | --- | --- |
+| `DATABASE_URL` | Evet | PostgreSQL bağlantı adresi; yalnızca sunucu tarafında kullanılır. |
+| `POSTGRES_DB` | Docker için | Compose tarafından oluşturulacak veritabanı adı. |
+| `POSTGRES_USER` | Docker için | PostgreSQL kullanıcısı. |
+| `POSTGRES_PASSWORD` | Docker için | Güçlü ve gizli PostgreSQL parolası. |
+| `POSTGRES_PORT` | Hayır | Host portu; boşsa Compose `5432` kullanır. |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Üretimde | Cloudflare Turnstile site anahtarı; herkese açıktır. |
+| `TURNSTILE_SECRET_KEY` | Üretimde | Turnstile sunucu anahtarı; kesinlikle commit edilmemelidir. |
+| `NEXT_PUBLIC_MAP_CDN_URL` | Seyahat haritası için | Tarayıcıdan erişilebilen ülke haritası veri kaynağı. |
 
-## 🤝 Katkıda Bulunma (Contributing)
+## Komutlar
 
-Bu proje topluluk desteğiyle büyümektedir. Her türlü katkıya (kod, tasarım, içerik, çeviri) açığız. Lütfen önce `CONTRIBUTING.md` dosyasını okuyunuz (Yakında eklenecek).
+```bash
+npm run dev
+npm run lint
+npm run build
+npm run start
+```
 
-1.  Bu repoyu Fork'layın.
-2.  Yeni bir özellik dalı (branch) oluşturun (`git checkout -b feature/yeni-ozellik`).
-3.  Değişikliklerinizi commit'leyin (`git commit -m 'Yeni özellik eklendi'`).
-4.  Dalı Push'layın (`git push origin feature/yeni-ozellik`).
-5.  Bir Pull Request (PR) oluşturun.
+## Güvenlik ve veri sorumluluğu
 
-## ⚖️ Lisans
+- `.env`, anahtarlar, sertifikalar, veritabanı dökümleri ve yerel veri klasörleri Git tarafından yok sayılır.
+- `.env.example` yalnızca değişken adlarını içerir; gerçek değer eklemeyin.
+- Vatandaş bildirimleri kişisel veri içerebilir. Veritabanını internete doğrudan açmayın, en az yetkili kullanıcı kullanın ve yedekleri şifreleyin.
+- Üretimde TLS, güvenli çerezler, ters proxy güvenlik başlıkları, erişim logları ve düzenli bağımlılık taraması kullanın.
+- Güvenlik açığını herkese açık issue yerine proje yöneticilerine özel kanaldan bildirin.
 
-Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.
+## İçerik ve kaynaklar
 
----
-*Bu proje T.C. Sağlık Bakanlığı veya herhangi bir resmi kurumun resmi web sitesi değildir. Gönüllü bir inisiyatiftir.*
+Sağlık içeriği resmî ve kurumsal kaynaklara dayandırılmalıdır. İl bazında yayımlanmış, güncel ve doğrulanabilir veri yoksa sayı veya risk seviyesi tahmin edilmemelidir. Haber kayıtları kaynak URL’si ve gerçek yayın tarihiyle girilmelidir.
+
+## Lisans
+
+Lisans koşulları için repository içindeki `LICENSE` dosyasına bakın.

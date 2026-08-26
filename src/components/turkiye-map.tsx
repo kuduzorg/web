@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import geoData from "@/data/turkiye-geo.json";
 import { DataDisclaimer } from "@/components/data-disclaimer";
-import { rabiesData } from "@/data/rabies-data";
+import { useRabiesData } from "@/hooks/use-rabies-data";
 
 // -- TİP TANIMLAMALARI --
 type Feature = {
@@ -23,6 +23,7 @@ type Feature = {
 };
 
 export function TurkeyMap() {
+  const rabiesData = useRabiesData();
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
 
   // Tooltip konfigürasyonu
@@ -87,11 +88,13 @@ export function TurkeyMap() {
 
   // Renklendirme mantığı
   const getCityColor = (id: string) => {
-    const risk = rabiesData[id]?.riskLevel || "low";
+    const city = rabiesData[id];
+    if (!city || !(city.confirmedCases > 0 || city.riskContactCount > 0 || city.hospitals > 0 || city.vets > 0 || city.lastCase !== "-")) return "fill-slate-300 hover:fill-slate-400 dark:fill-slate-700 dark:hover:fill-slate-600";
+    const risk = city.riskLevel;
     switch (risk) {
       case "high": return "fill-red-600 hover:fill-red-500 dark:fill-red-800 dark:hover:fill-red-700";
       case "medium": return "fill-orange-400 hover:fill-orange-300 dark:fill-orange-600 dark:hover:fill-orange-500";
-      default: return "fill-slate-300 hover:fill-slate-400 dark:fill-slate-700 dark:hover:fill-slate-600";
+      default: return "fill-[#8faebc] hover:fill-[#789aa9] dark:fill-[#668795] dark:hover:fill-[#789aa9]";
     }
   };
 
