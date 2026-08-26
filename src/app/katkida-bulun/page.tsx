@@ -76,15 +76,15 @@ export default function ContributePage() {
 
             <div className="mx-auto w-full max-w-3xl px-5 py-12 lg:py-16 flex-1">
                 {isSuccess ? (
-                    <Card className="border-green-200 bg-green-50 dark:bg-green-900/20">
+                    <Card className="border-green-200 bg-green-50">
                         <CardContent className="pt-6 text-center py-16">
-                            <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <CheckCircle2 className="w-8 h-8 text-green-600 dark:text-green-400" />
+                            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <CheckCircle2 className="w-8 h-8 text-green-600" />
                             </div>
-                            <h2 className="text-2xl font-bold text-green-800 dark:text-green-300 mb-2">
+                            <h2 className="text-2xl font-bold text-green-800 mb-2">
                                 Katkınız İçin Teşekkürler!
                             </h2>
-                            <p className="text-green-700 dark:text-green-400 max-w-md mx-auto mb-8">
+                            <p className="text-green-700 max-w-md mx-auto mb-8">
                                 Gönderdiğiniz içerik editörlerimiz tarafından incelendikten sonra yayına alınacaktır.
                                 Bilginin doğruluğu ve güvenilirliği için yaptığınız katkı çok değerli.
                             </p>
@@ -96,7 +96,7 @@ export default function ContributePage() {
                                     setTurnstileToken(null);
                                 }}
                                 variant="outline"
-                                className="border-green-200 text-green-700 hover:bg-green-100 dark:border-green-800 dark:text-green-300 dark:hover:bg-green-900/50"
+                                className="border-green-200 text-green-700 hover:bg-green-100"
                             >
                                 Yeni Bir Katkı Yap
                             </Button>

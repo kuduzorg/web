@@ -89,12 +89,12 @@ export function TurkeyMap() {
   // Renklendirme mantığı
   const getCityColor = (id: string) => {
     const city = rabiesData[id];
-    if (!city || !(city.confirmedCases > 0 || city.riskContactCount > 0 || city.hospitals > 0 || city.vets > 0 || city.lastCase !== "-")) return "fill-slate-300 hover:fill-slate-400 dark:fill-slate-700 dark:hover:fill-slate-600";
+    if (!city || !(city.confirmedCases > 0 || city.riskContactCount > 0 || city.hospitals > 0 || city.vets > 0 || city.lastCase !== "-")) return "fill-slate-300 hover:fill-slate-400";
     const risk = city.riskLevel;
     switch (risk) {
-      case "high": return "fill-red-600 hover:fill-red-500 dark:fill-red-800 dark:hover:fill-red-700";
-      case "medium": return "fill-orange-400 hover:fill-orange-300 dark:fill-orange-600 dark:hover:fill-orange-500";
-      default: return "fill-[#8faebc] hover:fill-[#789aa9] dark:fill-[#668795] dark:hover:fill-[#789aa9]";
+      case "high": return "fill-red-600 hover:fill-red-500";
+      case "medium": return "fill-orange-400 hover:fill-orange-300";
+      default: return "fill-[#8faebc] hover:fill-[#789aa9]";
     }
   };
 

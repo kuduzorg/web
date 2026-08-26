@@ -177,7 +177,7 @@ export default function TravelPage() {
                                         </div>
                                     </div>
                                     <div className="p-4 bg-muted/30 rounded-xl border border-border flex items-center gap-4">
-                                        <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-full text-red-600 dark:text-red-400">
+                                        <div className="p-3 bg-red-100 rounded-full text-red-600">
                                             <Phone className="w-6 h-6" />
                                         </div>
                                         <div>

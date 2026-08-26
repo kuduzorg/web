@@ -25,7 +25,7 @@ export function Hero() {
 
             {/* Kart 1: Acil Durum (Kırmızı) */}
             <div className="flex flex-col items-center justify-center p-8 bg-card rounded-xl shadow-lg border-2 border-primary/20 hover:border-primary transition-all group">
-              <div className="p-4 bg-red-100 dark:bg-red-900/20 rounded-full mb-4 group-hover:bg-red-200 dark:group-hover:bg-red-900/40 transition-colors">
+              <div className="p-4 bg-red-100 rounded-full mb-4 group-hover:bg-red-200 transition-colors">
                 <Activity className="h-10 w-10 text-primary" />
               </div>
               <h2 className="text-2xl font-bold text-foreground mb-2">Temas Riski!</h2>
@@ -41,7 +41,7 @@ export function Hero() {
 
             {/* Kart 2: Bildirim (Mavi/Gri - Güvenli) */}
             <div className="flex flex-col items-center justify-center p-8 bg-card rounded-xl shadow-lg border-2 border-border hover:border-muted-foreground/50 transition-all group">
-              <div className="p-4 bg-blue-100 dark:bg-blue-900/20 rounded-full mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-900/40 transition-colors">
+              <div className="p-4 bg-blue-100 rounded-full mb-4 group-hover:bg-blue-200 transition-colors">
                 <MapPin className="h-10 w-10 text-blue-600" />
               </div>
               <h2 className="text-2xl font-bold text-foreground mb-2">Şüpheli Durum Bildir</h2>
@@ -49,7 +49,7 @@ export function Hero() {
                 Çevrenizde hastalık belirtisi gösteren bir hayvan mı var? Yetkililere iletelim.
               </p>
               <ReportModal>
-                <Button size="lg" variant="outline" className="w-full sm:w-auto font-bold text-lg border-blue-600 text-blue-600 hover:bg-blue-50 dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-950/30">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto font-bold text-lg border-blue-600 text-blue-600 hover:bg-blue-50">
                   YETKİLİLERE BİLDİR
                 </Button>
               </ReportModal>
@@ -68,8 +68,8 @@ export function Hero() {
 
       {/* Arka plan dekorasyonu */}
       <div className="absolute top-0 left-0 w-full h-full -z-10 opacity-30 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-red-200/50 dark:bg-red-900/20 blur-[100px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-100/50 dark:bg-blue-900/20 blur-[100px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-red-200/50 blur-[100px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-100/50 blur-[100px]" />
       </div>
     </section>
   );

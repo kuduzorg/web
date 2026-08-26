@@ -123,7 +123,7 @@ function ReportDialog({ open, onOpenChange, reportText, setReportText, onSubmit,
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogTrigger asChild>
-                <Button variant={variant} size="sm" className={variant === "link" ? "h-auto p-0 text-xs text-red-500 hover:text-red-600" : "shrink-0 gap-2 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 border-red-200"}>
+                <Button variant={variant} size="sm" className={variant === "link" ? "h-auto p-0 text-xs text-red-500 hover:text-red-600" : "shrink-0 gap-2 text-red-500 hover:text-red-600 hover:bg-red-50 border-red-200"}>
                     {variant === "outline" && <AlertTriangle className="w-4 h-4" />}
                     Yanlış Veri Bildir
                 </Button>
@@ -168,8 +168,8 @@ function SuccessDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[360px] text-center p-6">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                        <CheckCircle2 className="w-6 h-6 text-green-600 dark:text-green-500" />
+                    <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                        <CheckCircle2 className="w-6 h-6 text-green-600" />
                     </div>
                     <div className="space-y-2">
                         <DialogTitle className="text-lg font-semibold">Bildiriminiz Alındı</DialogTitle>

@@ -83,11 +83,11 @@ export default function ContactPage() {
                     <div className="lg:col-span-5 space-y-8">
 
                         {/* 1. İhbar Yönlendirme */}
-                        <div className="relative overflow-hidden rounded-2xl border border-red-100 bg-gradient-to-br from-red-50 to-white dark:from-red-950/20 dark:to-background dark:border-red-900/50 p-6 shadow-sm">
-                            <AlertTriangle className="absolute -right-4 -top-4 h-24 w-24 text-red-100 dark:text-red-900/20 rotate-12 pointer-events-none" />
+                        <div className="relative overflow-hidden rounded-2xl border border-red-100 bg-gradient-to-br from-red-50 to-white p-6 shadow-sm">
+                            <AlertTriangle className="absolute -right-4 -top-4 h-24 w-24 text-red-100 rotate-12 pointer-events-none" />
 
                             <div className="relative z-10">
-                                <h3 className="text-lg font-bold text-red-600 dark:text-red-500 flex items-center gap-2">
+                                <h3 className="text-lg font-bold text-red-600 flex items-center gap-2">
                                     <Megaphone className="h-5 w-5" />
                                     İhbar mı Yapacaksınız?
                                 </h3>
@@ -104,7 +104,7 @@ export default function ContactPage() {
                                     </ReportModal>
 
                                     <div className="grid grid-cols-1 gap-3">
-                                        <Button asChild className="w-full justify-start h-12 bg-red-600 hover:bg-red-700 text-white shadow-md shadow-red-200 dark:shadow-none">
+                                        <Button asChild className="w-full justify-start h-12 bg-red-600 hover:bg-red-700 text-white shadow-md shadow-red-200">
                                             <a href="tel:112">
                                                 <Phone className="w-4 h-4 mr-2" /> 112 Acil
                                             </a>
@@ -182,7 +182,7 @@ export default function ContactPage() {
                             <CardContent className="p-8">
                                 {isSuccess ? (
                                     <div className="flex flex-col items-center justify-center py-12 text-center animate-in fade-in zoom-in duration-500">
-                                        <div className="w-20 h-20 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mb-6 text-green-600 dark:text-green-400">
+                                        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6 text-green-600">
                                             <CheckCircle2 className="w-10 h-10" />
                                         </div>
                                         <h3 className="text-2xl font-bold text-foreground mb-2">Mesajınız Alındı!</h3>

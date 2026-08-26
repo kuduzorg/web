@@ -87,17 +87,17 @@ export function DetailedRiskMap() {
 
     // Seçili il vurgusu (Koyu Gri/Siyah)
     // Yüksek risk ile seçim karışıklığını önlemek için
-    if (isSelected) return "fill-slate-800 dark:fill-slate-100";
-    if (!hasCityData(id)) return isHovered ? "fill-slate-400 dark:fill-slate-500" : "fill-slate-300 dark:fill-slate-700";
+    if (isSelected) return "fill-slate-800";
+    if (!hasCityData(id)) return isHovered ? "fill-slate-400" : "fill-slate-300";
 
-    let baseColor = "fill-[#8faebc] dark:fill-[#668795]"; // Düşük risk
-    if (risk === "medium") baseColor = "fill-orange-300 dark:fill-orange-600";
-    if (risk === "high") baseColor = "fill-red-500 dark:fill-red-800";
+    let baseColor = "fill-[#8faebc]"; // Düşük risk
+    if (risk === "medium") baseColor = "fill-orange-300";
+    if (risk === "high") baseColor = "fill-red-500";
 
     if (isHovered) {
-      if (risk === "high") return "fill-red-400 dark:fill-red-700";
-      if (risk === "medium") return "fill-orange-200 dark:fill-orange-500";
-      return "fill-[#789aa9] dark:fill-[#789aa9]";
+      if (risk === "high") return "fill-red-400";
+      if (risk === "medium") return "fill-orange-200";
+      return "fill-[#789aa9]";
     }
 
     return baseColor;
@@ -135,13 +135,13 @@ export function DetailedRiskMap() {
                   key={city.id}
                   onClick={() => setSelectedCityId(city.id)}
                   className={`w-full flex items-center justify-between px-4 py-3 rounded-md text-sm transition-all duration-200 group ${selectedCityId === city.id
-                    ? "bg-slate-900 text-white shadow-sm font-semibold dark:bg-slate-100 dark:text-slate-900"
+                    ? "bg-slate-900 text-white shadow-sm font-semibold"
                     : "hover:bg-muted text-foreground"
                     }`}
                 >
                   <span>{city.name}</span>
-                  <div className={`w-2.5 h-2.5 rounded-full ring-2 ring-offset-1 ring-offset-card ${!hasCityData(city.id) ? 'bg-slate-300 ring-slate-200 dark:bg-slate-600 dark:ring-slate-800' : city.riskLevel === 'high' ? 'bg-red-500 ring-red-200' :
-                    city.riskLevel === 'medium' ? 'bg-orange-400 ring-orange-200' : 'bg-[#8faebc] ring-[#c5d5dc] dark:bg-[#668795] dark:ring-[#456672]'
+                  <div className={`w-2.5 h-2.5 rounded-full ring-2 ring-offset-1 ring-offset-card ${!hasCityData(city.id) ? 'bg-slate-300 ring-slate-200' : city.riskLevel === 'high' ? 'bg-red-500 ring-red-200' :
+                    city.riskLevel === 'medium' ? 'bg-orange-400 ring-orange-200' : 'bg-[#8faebc] ring-[#c5d5dc]'
                     }`} />
                 </button>
               ))
@@ -195,8 +195,8 @@ export function DetailedRiskMap() {
       <Card className="w-full lg:w-1/4 border-border shadow-sm flex flex-col overflow-hidden bg-card">
         {selectedCity ? (
           <div className="flex flex-col h-full">
-            <div className={`p-6 border-b border-border ${selectedCity.riskLevel === 'high' ? 'bg-red-50 dark:bg-red-950/20' :
-              selectedCity.riskLevel === 'medium' ? 'bg-orange-50 dark:bg-orange-950/20' : 'bg-slate-100 dark:bg-slate-900'
+            <div className={`p-6 border-b border-border ${selectedCity.riskLevel === 'high' ? 'bg-red-50' :
+              selectedCity.riskLevel === 'medium' ? 'bg-orange-50' : 'bg-slate-100'
               }`}>
               <div className="flex justify-between items-center mb-1">
                 <h2 className="text-2xl font-bold text-foreground">{selectedCity.name}</h2>

@@ -18,7 +18,7 @@ export default function AboutPage() {
             {/* Kart 1 */}
             <Card className="border-none shadow-lg bg-card/50 backdrop-blur">
               <CardContent className="p-8 text-center">
-                <div className="w-14 h-14 mx-auto bg-red-100 dark:bg-red-900/20 rounded-2xl flex items-center justify-center mb-6 text-red-600">
+                <div className="w-14 h-14 mx-auto bg-red-100 rounded-2xl flex items-center justify-center mb-6 text-red-600">
                   <Activity className="w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-3">Bilimsel Temel</h3>
@@ -65,7 +65,7 @@ export default function AboutPage() {
 
             <div>
               <h2 className="text-3xl font-bold text-foreground mb-6">Neden Kuduz.org?</h2>
-              <div className="prose prose-slate dark:prose-invert text-lg text-muted-foreground leading-relaxed">
+              <div className="prose prose-slate text-lg text-muted-foreground leading-relaxed">
                 <p>
                   Türkiye, coğrafi konumu ve yaban hayatı çeşitliliği nedeniyle kuduz riskinin halen devam ettiği ülkelerden biridir. Ancak toplumda bu konuda büyük bir bilgi kirliliği mevcuttur. Bir yanda aşı karşıtlığı veya ihmalkarlık, diğer yanda ise hayvanlara karşı oluşan korku ve şiddet sarmalı...
                 </p>
@@ -108,8 +108,8 @@ export default function AboutPage() {
       {/* Ekip ve Gönüllüler Bölümü */}
       <section className="py-20 border-t ">
         <div className="container mx-auto px-4 text-center">
-          <div className="inline-block p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-full mb-6 shadow-sm">
-            <Lightbulb className="w-6 h-6 text-yellow-700 dark:text-yellow-300" />
+          <div className="inline-block p-3 bg-yellow-50 rounded-full mb-6 shadow-sm">
+            <Lightbulb className="w-6 h-6 text-yellow-700" />
           </div>
           <h2 className="text-3xl font-bold mb-4">Kimiz Biz?</h2>
           <p className="max-w-3xl mx-auto mb-8 text-muted-foreground leading-relaxed">

@@ -85,14 +85,14 @@ export default function NewsPage() {
         switch (normalizedTag) {
             case "DOĞRULANDI":
                 return (
-                    <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-1 rounded-md border border-emerald-100 dark:border-emerald-800 w-fit">
+                    <div className="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-100 w-fit">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                         <span className="text-[11px] font-bold uppercase tracking-wide">Doğrulandı</span>
                     </div>
                 );
             case "RİSKLİ/ŞÜPHELİ":
                 return (
-                    <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-2.5 py-1 rounded-md border border-amber-100 dark:border-amber-800 w-fit">
+                    <div className="flex items-center gap-2 text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-100 w-fit">
                         <AlertCircle className="w-3.5 h-3.5" />
                         <span className="text-[11px] font-bold uppercase tracking-wide">Riskli/Şüpheli</span>
                     </div>
@@ -106,7 +106,7 @@ export default function NewsPage() {
                 );
             case "VAKA":
                 return (
-                    <div className="flex items-center gap-2 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-2.5 py-1 rounded-md border border-red-100 dark:border-red-800 w-fit">
+                    <div className="flex items-center gap-2 text-red-600 bg-red-50 px-2.5 py-1 rounded-md border border-red-100 w-fit">
                         <AlertCircle className="w-3.5 h-3.5" />
                         <span className="text-[11px] font-bold uppercase tracking-wide">Vaka</span>
                     </div>

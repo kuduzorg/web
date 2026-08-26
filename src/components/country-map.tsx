@@ -102,11 +102,11 @@ export function CountryMap({ geoData, countryName, riskLevel }: CountryMapProps)
     // -- 2. RENKLENDİRME --
     const getRegionColor = () => {
         switch (riskLevel) {
-            case "high": return "fill-red-600 hover:fill-red-500 dark:fill-red-800 dark:hover:fill-red-700";
-            case "medium": return "fill-orange-400 hover:fill-orange-300 dark:fill-orange-600 dark:hover:fill-orange-500";
-            case "low": return "fill-yellow-400 hover:fill-yellow-300 dark:fill-yellow-600 dark:hover:fill-yellow-500";
-            case "free": return "fill-green-500 hover:fill-green-400 dark:fill-green-700 dark:hover:fill-green-600";
-            default: return "fill-slate-300 hover:fill-slate-400 dark:fill-slate-700 dark:hover:fill-slate-600";
+            case "high": return "fill-red-600 hover:fill-red-500";
+            case "medium": return "fill-orange-400 hover:fill-orange-300";
+            case "low": return "fill-yellow-400 hover:fill-yellow-300";
+            case "free": return "fill-green-500 hover:fill-green-400";
+            default: return "fill-slate-300 hover:fill-slate-400";
         }
     };
 

@@ -61,7 +61,7 @@ export default function RabiesInfo() {
           </aside>
 
           {/* Sağ Panel: Ana İçerik */}
-          <article className="flex-1 max-w-4xl prose prose-slate dark:prose-invert lg:prose-lg">
+          <article className="flex-1 max-w-4xl prose prose-slate lg:prose-lg">
 
             {/* BÖLÜM 1: Nedir? */}
             <section id="nedir" className="scroll-mt-24 mb-16">
@@ -73,7 +73,7 @@ export default function RabiesInfo() {
                 Kuduz, <strong>Rhabdoviridae</strong> ailesine ait RNA tabanlı bir virüsün neden olduğu,
                 merkezi sinir sistemini hedef alan, akut ve ilerleyici bir viral enfeksiyondur (Zoonoz).
               </p>
-              <Alert variant="destructive" className="my-6 border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-900/20">
+              <Alert variant="destructive" className="my-6 border-red-200 bg-red-50">
                 <AlertTriangle className="h-4 w-4" />
                 <AlertTitle>Ölümcül Gerçek</AlertTitle>
                 <AlertDescription>

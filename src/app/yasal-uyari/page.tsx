@@ -39,7 +39,7 @@ export default function DisclaimerPage() {
                             <h2 className="text-2xl font-semibold">Harita Verileri ve Doğrulama</h2>
                         </div>
 
-                        <div className="prose dark:prose-invert max-w-none text-muted-foreground">
+                        <div className="prose max-w-none text-muted-foreground">
                             <p>
                                 Kuduz.org üzerindeki risk haritası ve vaka verileri, modern yapay zeka ve otomasyon teknolojileri kullanılarak derlenmektedir.
                                 Veri toplama sürecimiz şu şekildedir:
@@ -55,7 +55,7 @@ export default function DisclaimerPage() {
 
                             <div className="mt-6 bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 flex gap-3 items-start">
                                 <AlertTriangle className="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" />
-                                <div className="text-sm text-yellow-600 dark:text-yellow-400">
+                                <div className="text-sm text-yellow-600">
                                     <p className="font-medium mb-1">Önemli Hatırlatma</p>
                                     <p>
                                         Yüksek teknoloji kullanılarak yapılan doğrulamalara rağmen, otomatik sistemler nadiren de olsa hata yapabilir veya güncel olmayan bilgiler sunabilir.
@@ -75,7 +75,7 @@ export default function DisclaimerPage() {
                             <h2 className="text-2xl font-semibold">Haber Verileri ve Otomasyon</h2>
                         </div>
 
-                        <div className="prose dark:prose-invert max-w-none text-muted-foreground">
+                        <div className="prose max-w-none text-muted-foreground">
                             <p>
                                 Haberler sayfasında sunulan içerikler, <strong>Google RSS</strong> servisleri üzerinden otomatik olarak toplanmakta ve <strong>Gemini</strong> yapay zeka teknolojisi ile analiz edilerek kategorize edilmektedir.
                             </p>
@@ -102,7 +102,7 @@ export default function DisclaimerPage() {
                             <h2 className="text-2xl font-semibold">Genel Sorumluluk Reddi</h2>
                         </div>
 
-                        <div className="prose dark:prose-invert max-w-none text-muted-foreground">
+                        <div className="prose max-w-none text-muted-foreground">
                             <p>
                                 Kuduz.org, toplum sağlığı konusunda farkındalık yaratmak amacıyla kurulmuş gönüllü bir inisiyatiftir.
                                 Sitede yer alan bilgiler, genel bilgilendirme amacı taşımakta olup, profesyonel tıbbi tavsiye, teşhis veya tedavi yerine geçmez.

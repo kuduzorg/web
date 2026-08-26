@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { HealthNotice } from "@/components/health-notice";
 
@@ -18,19 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // Hidrasyon uyarısını bastırma
-    <html lang="tr" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
-          <HealthNotice />
-          {children}
-        </ThemeProvider>
+    <html lang="tr" className="light" style={{ colorScheme: "light" }}>
+      <body className={inter.className}>
+        <Navbar />
+        <HealthNotice />
+        {children}
       </body>
     </html>
   );

@@ -125,8 +125,8 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
           <div className="flex flex-col items-center justify-center py-6 text-center animate-in zoom-in duration-300">
 
             <div className="mb-6 flex flex-col items-center">
-              <div className="h-16 w-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
-                <ShieldCheck className="h-8 w-8 text-green-600 dark:text-green-400" />
+              <div className="h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                <ShieldCheck className="h-8 w-8 text-green-600" />
               </div>
               <h3 className="text-xl font-bold text-foreground">Risk Verisi Kaydedildi</h3>
               <p className="text-muted-foreground text-sm max-w-xs mt-2">
@@ -134,17 +134,17 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
               </p>
             </div>
 
-            <div className="w-full bg-red-50 dark:bg-red-950/20 border-l-4 border-red-500 p-6 rounded-r-xl text-left shadow-sm mb-6">
-              <h4 className="text-red-700 dark:text-red-400 font-bold flex items-center gap-2 mb-2">
+            <div className="w-full bg-red-50 border-l-4 border-red-500 p-6 rounded-r-xl text-left shadow-sm mb-6">
+              <h4 className="text-red-700 font-bold flex items-center gap-2 mb-2">
                 <AlertTriangle className="h-5 w-5" />
                 Müdahale Gerekiyor mu?
               </h4>
-              <p className="text-sm text-red-600/90 dark:text-red-400/80 mb-4 leading-relaxed">
+              <p className="text-sm text-red-600/90 mb-4 leading-relaxed">
                 Platformumuz bir acil çağrı merkezi <strong>değildir</strong> ve saha ekibi yönlendirmez. Eğer saldırgan bir hayvan veya ısırılma vakası varsa, devletin resmi ekiplerine ulaşmak için lütfen aşağıdaki butonu kullanın.
               </p>
 
               <Button
-                className="w-full h-14 text-lg font-bold bg-red-600 hover:bg-red-700 text-white shadow-md shadow-red-200 dark:shadow-none flex items-center justify-center gap-3"
+                className="w-full h-14 text-lg font-bold bg-red-600 hover:bg-red-700 text-white shadow-md shadow-red-200 flex items-center justify-center gap-3"
                 asChild
               >
                 <a href="tel:112">
@@ -163,8 +163,8 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
           <>
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-foreground">
-                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                  <Send className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Send className="w-5 h-5 text-blue-600" />
                 </div>
                 Risk Bildirimi Yap
               </DialogTitle>
@@ -254,7 +254,7 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
               </div>
 
               {/* Bilgi Notu */}
-              <div className="flex gap-3 p-3 bg-blue-50 dark:bg-blue-900/10 rounded-lg text-xs text-blue-700 dark:text-blue-300">
+              <div className="flex gap-3 p-3 bg-blue-50 rounded-lg text-xs text-blue-700">
                 <Info className="w-4 h-4 flex-shrink-0 mt-0.5" />
                 <p>Gönderilen veriler spam koruması altındadır. IP adresiniz güvenlik amacıyla kaydedilebilir.</p>
               </div>

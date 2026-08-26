@@ -22,7 +22,7 @@ export function LegalLayout({ children, title, active }: { children: React.React
           {/* SAĞ: İçerik */}
           <div className="flex-1">
             <div className="bg-card rounded-2xl border border-border shadow-sm p-8 md:p-12">
-              <article className="prose prose-slate dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-blue-600">
+              <article className="prose prose-slate max-w-none prose-headings:font-bold prose-a:text-blue-600">
                 {children}
               </article>
             </div>

@@ -2,8 +2,6 @@
 @import "tw-animate-css";
 @import "leaflet/dist/leaflet.css";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -105,56 +103,6 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.577 0.245 27.325);
-}
-
-/* --- DARK MODE (KARANLIK) --- */
-.dark {
-  /* Arkaplan: Koyu Lacivert/Siyah (Slate-950 benzeri) */
-  --background: oklch(0.129 0.042 264.695); 
-  --foreground: oklch(0.984 0.003 247.858);
-
-  --card: oklch(0.17 0.04 265); /* Biraz daha açık koyu */
-  --card-foreground: oklch(0.984 0.003 247.858);
-
-  --popover: oklch(0.129 0.042 264.695);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-
-  /* ANA RENK: Koyu modda da Kırmızı kalsın (Marka rengi) */
-  --primary: oklch(0.577 0.245 27.325); 
-  --primary-foreground: oklch(1 0 0);
-
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(1 0 0);
-
-  --border: oklch(0.279 0.041 260.031);
-  --input: oklch(0.279 0.041 260.031);
-  --ring: oklch(0.446 0.18 27.325); /* Daha koyu kırmızı ring */
-
-  /* Grafikler (Koyu mod için uyumlu) */
-  --chart-1: oklch(0.64 0.22 27.325);
-  --chart-2: oklch(0.72 0.15 25);
-  --chart-3: oklch(0.72 0.035 258);
-  --chart-4: oklch(0.58 0.035 258);
-  --chart-5: oklch(0.82 0.02 258);
-
-  /* Sidebar */
-  --sidebar: oklch(0.129 0.042 264.695);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.577 0.245 27.325);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(0.279 0.041 260.031);
-  --sidebar-ring: oklch(0.446 0.18 27.325);
 }
 
 @layer base {
